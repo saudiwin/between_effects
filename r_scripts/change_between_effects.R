@@ -4,9 +4,9 @@ require(ggplot2)
 require(car)
 require(nnet)
 
-source("Ggplot2_theme.R")
+source("r_scripts/Ggplot2_theme.R")
 
-lookat <- read.csv("Record of Papers Between Effects - Sheet1.csv")
+lookat <- read.csv("data/Record of Papers Between Effects - Sheet1.csv")
 
 lookat$N <- str_extract(lookat$N.T,"[0-9]+\\*")
 lookat$T <- str_extract(lookat$N.T,"\\*[0-9]+")
@@ -74,3 +74,5 @@ summary(model2)
 # use google scholar to get citation counts for certain papers
 
 DOIs <- c('10.2307/2111187','10.2307/2082979','10.1093/pan/mpm002','10.1111/0034-6527.00321')
+
+
