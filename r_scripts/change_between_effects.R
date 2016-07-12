@@ -75,4 +75,41 @@ summary(model2)
 
 DOIs <- c('10.2307/2111187','10.2307/2082979','10.1093/pan/mpm002','10.1111/0034-6527.00321')
 
+beckkatz <- fread("data/stimson_full.csv")
+stimson <- as.data.table(read.csv("data/beckkatz_full.csv",row.names=NULL,stringsAsFactors = FALSE))
 
+beckkatz[,year:=as.numeric(substr(as.character(pubdate),1,4))]
+stimson[,year:=as.numeric(substr(as.character(pubdate),1,4))]
+stimson[,`reviewed-work`:=`reviewed.work`]
+stimson[,`reviewed.work`:=NULL]
+beckkatz[,cited:="Beck and Katz (1995)"]
+stimson[,cited:="Stimson (1985)"]
+
+combined_data <- data.table::rbindlist(list(beckkatz,stimson),use.names=TRUE,fill=TRUE)
+combined_data[,unique_id:=paste0(cited,doi)]
+require(ggnetwork)
+require(network)
+require(magrittr)
+
+edge_matrix <- combined_data[,.SD,.SDcols=c('cited','doi')] %>% as.matrix %>% network
+vertice_names <- data.table(node_name=network.vertex.names(edge_matrix))
+vertice_names <- merge(vertice_names,combined_data,by.x='node_name',by.y='doi',all.x=TRUE,all.y=FALSE)
+vertice_names <- vertice_names[!duplicated(node_name),]
+edge_matrix %v% 'title' <- vertice_names$title
+edge_matrix %v% 'author' <- vertice_names$author
+edge_matrix %v% 'journaltitle' <- vertice_names$journaltitle
+edge_matrix %v% 'cited' <- vertice_names$cited
+edge_matrix %v% 'year' <- vertice_names$year
+#edge_matrix %v% 'two_node' <- c(rep(NA,(nrow(vertice_names)-2)) ,vertice_names$node_name[(nrow(vertice_names)-1):nrow(vertice_names)])
+set.vertex.attribute(edge_matrix,'two_node',c('Beck and Katz (1995)','Stimson (1985)'),v=c((nrow(vertice_names)-1),
+                                                                                           nrow(vertice_names)))
+produce_data <- ggnetwork(edge_matrix)
+
+# Time to plot this bugger
+
+ggplot(produce_data, aes(x = x, y = y, xend = xend, yend = yend)) + geom_edges(color = "grey50",curvature=0.1,alpha=0.2) +
+  theme_blank() + geom_nodes(aes(colour=year),size=3) + geom_nodetext_repel(aes(label=two_node)) + 
+  scale_colour_gradient(low = "red", high = "blue") +
+  theme(legend.title=element_blank())
+
+ggsave(filename = 'charts/stimsonkatz.png',width=10,height=5,units='in')
