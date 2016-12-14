@@ -1,0 +1,108 @@
+---
+title: "Re-analysis of Acemoglu"
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+```{r}
+# Re-analysis of Acemoglu et al.
+
+require(haven)
+require(readxl)
+require(dplyr)
+require(magrittr)
+require(tidyr)
+require(ggplot2)
+require(modelr)
+require(broom)
+require(purrr)
+require(pbapply)
+require(parallel)
+
+fiveyear <- read_dta("Acemoglu one year panel.dta")
+oneyear <- read_excel("Income and Democracy Data AER adjustment.xls", 
+sheet = "Annual Panel")
+oneyear <- oneyear %>% group_by(country) %>% mutate(l1_fhpolrigaug=lag(fhpolrigaug,order_by=year),
+                                                    l1_lrgdpch=lag(lrgdpch,order_by=year)) %>% 
+  filter(!(is.na(fhpolrigaug)) & !(is.na(lrgdpch))) %>% mutate(panel_balance=n())
+```
+
+# The issue with the DV
+
+One un-noticed issue in the data is that the DV is fixed within countries. We have been focusing on IVs that could be fixed within or between, but not DVs. Of course, the model can't drop the DV, so it seems like it can screw up the 2-way estimate when there isn't enough variance in the DV either in the cross-section or the over-time effect.
+
+I haven't figured out yet how to reproduce this; you might want to run a simulation to test it more accurately.
+
+First we look at the distribution of the DV in the Acemoglu dataset. We see that there are spikes at 0 and 1, and that in general there isn't a whole lot of variation in the DV even though it is being treated as continuous.
+
+```{r}
+ggplot(oneyear,aes(x=fhpolrigaug)) + geom_bar(fill='blue') + theme_minimal()
+```
+
+Now to illustrate the problem, I use the dataset only with Canada and the United States. 
+
+```{r}
+data3 <-  filter(oneyear,country %in% c('United States','Canada')) %>% select(country,year,fhpolrigaug,lrgdpch,l1_fhpolrigaug,l1_lrgdpch)
+twoway <- round(coef(lm(data=data3,formula=fhpolrigaug~ lrgdpch+ factor(year) + factor(country)))['lrgdpch'],3)
+pooled <- round(coef(lm(data=data3,formula=fhpolrigaug~ lrgdpch))['lrgdpch'],3)
+time <- round(coef(lm(data=data3,formula=fhpolrigaug~ lrgdpch+ factor(year)))['lrgdpch'],3)
+case <- round(coef(lm(data=data3,formula=fhpolrigaug~ lrgdpch+ factor(country)))['lrgdpch'],3)
+```
+
+In this situation with these two countries, the 2-way effect is `r twoway`, the pooled estimate is `r pooled`, the time estimate is `r time` and the case estimate is `r case`. Thus 2-way estimate is between the pooled and case estimate, although it is converging to the time estimate.
+
+However, when we look at the distribution of the DV in this dataset, we see a lot of 1s:
+
+```{r}
+print(as.data.frame(data3))
+```
+
+Canada apparently went from .99 to 1 between 1950 to 1955. They must have given the Mounties the right to vote.
+
+Given our framework, this dataset is particularly problematic for two-way estimation because there isn't much variation in the DV, and the 2-way estimate has to combine variation along several dimensions. To test this, I run a simulation in which I replace the 1s with a random number between 0.99 and .9999. It is a very small difference in the variation, but it can lead to startling results.
+
+```{r}
+tw_coef <- 1:1000
+f1_coef <- 1:1000
+c1_coef <- 1:1000
+p_coef <- 1:1000
+m_replace <- 1:1000
+m_diff <- 1:1000
+for(i in 1:1000) {
+data3 <-  filter(oneyear,country %in% c('United States','Canada')) %>% select(country,year,fhpolrigaug,lrgdpch,l1_fhpolrigaug,l1_lrgdpch)
+replacement <- runif(nrow(data3),0.99,.9999)
+data3 <- ungroup(data3) %>% mutate(fhpolrigaug2 = ifelse(fhpolrigaug==1,replacement,fhpolrigaug))
+tw_coef[i] <- coef(lm(data=data3,formula=fhpolrigaug2~ lrgdpch+ factor(year) + factor(country)))['lrgdpch']
+f1_coef[i] <- coef(lm(data=data3,formula=fhpolrigaug2~ lrgdpch+ factor(year)))['lrgdpch']
+c1_coef[i] <- coef(lm(data=data3,formula=fhpolrigaug2~ lrgdpch+ factor(country)))['lrgdpch']
+p_coef[i] <- coef(lm(data=data3,formula=fhpolrigaug2~ lrgdpch))['lrgdpch']
+m_replace[i] <- mean(ifelse(data3$fhpolrigaug==1,replacement,data3$fhpolrigaug),na.rm=TRUE)
+out_diff <- data3 %>% group_by(country) %>% summarize(mean_countries=mean(fhpolrigaug2))
+m_diff[i] <- (out_diff$mean_countries[1] - out_diff$mean_countries[2])^2
+}
+```
+
+Then we can look at the distribution of coefficients across the different models. The black bars on either side of the graph indicate the maximum and minimum observed coefficient from the two-way FE model. As can be seen, the 1-way and pooled estimates (c1,f1 and p) are largely stable, but the two_way estimate (tw_coef) has a greater range and much, much wider variance than any of the other models. The 1-way estimates are largely immune to the small amount of random noise injected into the model, but the 2-way estimates are highly influenced by it.
+
+```{r}
+data_frame(tw_coef,f1_coef,c1_coef,p_coef) %>% gather(model_type,estimate) %>% 
+  ggplot(aes(x=estimate,fill=model_type,alpha=0.5)) + geom_density() + theme_minimal() + 
+  geom_vline(xintercept=c(min(tw_coef),max(tw_coef)))
+
+```
+
+We can see if small differences in the uniform random values may have driven the change in the 2-way coefficient by comparing mean values of the random numbers to the 2-way coefficients:
+
+```{r}
+data_frame(m_replace,tw_coef) %>% ggplot(aes(y=m_replace,x=tw_coef)) + geom_point() + stat_smooth(method='lm') + theme_minimal()
+```
+
+It is not related to the small differences in the sampling error of the random uniform numbers. We can also look at mean differences in the DV between the US and Canada:
+
+```{r}
+data_frame(m_diff,tw_coef) %>% ggplot(aes(y=m_diff,x=tw_coef)) + geom_point() + stat_smooth(method='lm') + theme_minimal()
+```
+
+As can be seen, it is difficult to predict when and on what side the two-way coefficient will fall even given minute levels of random noise. It seems we should warn the reader of this problem, and also mention it in the simulations. 

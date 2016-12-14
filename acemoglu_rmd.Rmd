@@ -1,0 +1,204 @@
+---
+title: "Re-analysis of Acemoglu"
+output: html_notebook
+---
+
+```{r}
+# Re-analysis of Acemoglu et al.
+
+require(haven)
+require(readxl)
+require(dplyr)
+require(magrittr)
+require(tidyr)
+require(ggplot2)
+require(modelr)
+require(broom)
+require(purrr)
+require(plotly)
+fiveyear <- read_dta("Acemoglu one year panel.dta")
+oneyear <- read_excel("Income and Democracy Data AER adjustment.xls", 
+sheet = "Annual Panel")
+```
+# Panel Balance
+
+I first look at panel balance to see whether there are cases that have just one observation. In both the one year and five year panels, there are countries with only one observation, which is troubling for the analysis. All of these countries will drop out if lags are used.
+
+
+```{r}
+# Panel Balance
+
+fivey_balance <- fiveyear %>% group_by(country) %>% filter(!(is.nan(fhpolrigaug)) & !(is.nan(lrgdpch))) %>% 
+  summarize(panel_balance=n())
+oney_balance <- oneyear %>% group_by(country) %>% filter(!(is.na(fhpolrigaug)) & !(is.na(lrgdpch))) %>% 
+  summarize(panel_balance=n())
+```
+ 
+```{r}
+gplot <- fivey_balance %>% ggplot(aes(y=panel_balance,x=reorder(country,panel_balance))) + theme_minimal() + 
+  geom_bar(stat='identity') + xlab('country') + ylab('count')
+ggplotly(gplot)
+```
+```{r}
+gplot <- oney_balance %>% ggplot(aes(y=panel_balance,x=reorder(country,panel_balance))) + theme_minimal() + 
+  geom_bar(stat='identity') + xlab('country') + ylab('count')
+ggplotly(gplot)
+```
+
+
+# Influence of LDVs
+
+## 5-year panel
+
+Now I look at whether LDVs make a difference for whether the 2-way FE estimate is between the 1-way case and 1-way time.
+
+```{r}
+# Add lag DVs/IVs
+# For the five year panel, the t-1 lag is really a five-year lag
+fiveyear <- fiveyear %>% group_by(country) %>% mutate(l1_fhpolrigaug=lag(fhpolrigaug,order_by=year),
+                                                           l1_lrgdpch=lag(lrgdpch,order_by=year))
+oneyear <- oneyear %>% group_by(country) %>% mutate(l1_fhpolrigaug=lag(fhpolrigaug,order_by=year),
+                                                           l1_lrgdpch=lag(lrgdpch,order_by=year))
+```
+
+We'll start with a replication using lags of the IV and DV as predicotrs in the five-year panel. The one-way case FE is:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ l1_lrgdpch + l1_fhpolrigaug + factor(country)))['l1_lrgdpch']
+```
+
+While the one-way time FE is:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ l1_lrgdpch + l1_fhpolrigaug + factor(year)))['l1_lrgdpch']
+```
+And the 2-way is:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ l1_lrgdpch + l1_fhpolrigaug + factor(year) + factor(country)))['l1_lrgdpch']
+```
+
+In their standard model, the 2-way FE coefficient converges to 0, which is neither the 1-way case or 1-way FE model.
+
+### Without LDVs
+
+Now we will run the same models with a lagged IV, but no LDV.
+
+1-way case:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ l1_lrgdpch + factor(country)))['l1_lrgdpch']
+```
+
+1-way time:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ l1_lrgdpch + factor(year)))['l1_lrgdpch']
+```
+
+2-way FE:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ l1_lrgdpch+ factor(year) + factor(country)))['l1_lrgdpch']
+```
+
+Without an LDV, the two-way FE coefficient, using the same data, is between the 1-way case and 1-way FE coefficients. It is much closer to the case FE model, which probably because 1) we dropped a lot of years and 2) there is probably more autocorrelation in the cases, so the twoway FE model will converge to the case FE as we established in simulations.
+
+### Without Any Lags
+
+Now we will run the same models with no lags at all.
+
+1-way case:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ lrgdpch + factor(country)))['lrgdpch']
+```
+
+1-way time:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ lrgdpch + factor(year)))['lrgdpch']
+```
+
+2-way FE:
+
+```{r}
+coef(lm(data=fiveyear,formula=fhpolrigaug~ lrgdpch+ factor(year) + factor(country)))['lrgdpch']
+```
+
+
+## One-year panel
+
+We'll do the same thing, only now with the 1-year panel.
+
+
+The one-way case FE is:
+  
+```{r}
+coef(lm(data=oneyear,formula=fhpolrigaug~ l1_lrgdpch + l1_fhpolrigaug + factor(country)))['l1_lrgdpch']
+```
+
+While the one-way time FE is:
+
+```{r}
+coef(lm(data=oneyear,formula=fhpolrigaug~ l1_lrgdpch + l1_fhpolrigaug + factor(year)))['l1_lrgdpch']
+```
+
+And the 2-way is:
+
+```{r}
+coef(lm(data=oneyear,formula=fhpolrigaug~ l1_lrgdpch + l1_fhpolrigaug + factor(year) + factor(country)))['l1_lrgdpch']
+```
+
+Again, we see that the 2-way FE estimate is less than either 1-way case or 1-way time.
+
+### Without LDVs
+
+Now we will run the same models with a lagged IV, but no LDV.
+
+1-way case:
+  
+```{r}
+coef(lm(data=oneyear,formula=fhpolrigaug~ l1_lrgdpch + factor(country)))['l1_lrgdpch']
+```
+
+1-way time:
+
+```{r}
+coef(lm(data=oneyear,formula=fhpolrigaug~ l1_lrgdpch + factor(year)))['l1_lrgdpch']
+```
+
+2-way FE:
+  
+```{r}
+coef(lm(data=oneyear,formula=fhpolrigaug~ l1_lrgdpch+ factor(year) + factor(country)))['l1_lrgdpch']
+```
+
+In this case, the 2-way FE coefficient is still below the 1-way case and 1-way time FEs.
+
+### Without Lags
+
+Now we will run the same models with no lags.
+
+1-way case:
+  
+```{r}
+data <-  filter(oneyear,country %in% c('United States'))
+coef(lm(data=data,formula=fhpolrigaug~ lrgdpch + factor(year)))['lrgdpch']
+```
+
+1-way time:
+
+```{r}
+data <-  filter(oneyear,country %in% c('Canada'))
+coef(lm(data=oneyear,formula=fhpolrigaug~ lrgdpch + factor(year)))['lrgdpch']
+```
+
+2-way FE:
+  
+```{r}
+data <-  filter(oneyear,country %in% c('United States','Canada'))
+coef(lm(data=data,formula=fhpolrigaug~ lrgdpch+ factor(year) + factor(country)))['lrgdpch']
+```
+
+Even without lags, the 1-year panel's twoway FE coefficient is still less than the one-way coefficients. The contrast between the 1-year panel and the 5-year panel suggest that the issue is how the data is being aggregated in the different panels. There are observations in the 1-year panel that can induce the 2-way FE coefficient to drop.
