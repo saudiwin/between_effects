@@ -1,0 +1,28 @@
+[0] Config.pm:327> INFO - This is Biber 2.2
+[1] Config.pm:330> INFO - Logfile is 'manuscript.blg'
+[73] biber-MSWIN:283> INFO - === 
+[73] Biber.pm:334> INFO - Reading 'manuscript.bcf'
+[311] Utils.pm:147> WARN - Warning: Found biblatex control file version 2.9, expected version 2.8
+[313] Biber.pm:677> INFO - Found 29 citekeys in bib section 0
+[373] Biber.pm:3054> INFO - Processing section 0
+[415] Biber.pm:3193> INFO - Looking for bibtex format file 'BibTexDatabase.bib' for section 0
+[695] bibtex.pm:1072> INFO - Decoding LaTeX character macros into UTF-8
+[963] bibtex.pm:935> INFO - Found BibTeX data source 'BibTexDatabase.bib'
+[973] Utils.pm:147> WARN - Possible typo (case mismatch) between datasource keys: 'anderson1986' and 'Anderson1986' in file 'BibTexDatabase.bib'
+[986] Utils.pm:147> WARN - Possible typo (case mismatch) between datasource keys: 'bennett2014' and 'Bennett2014' in file 'BibTexDatabase.bib'
+[1001] Utils.pm:147> WARN - Possible typo (case mismatch) between datasource keys: 'cavatorta2012' and 'Cavatorta2012' in file 'BibTexDatabase.bib'
+[1045] Utils.pm:147> WARN - Possible typo (case mismatch) between datasource keys: 'heydemann2013' and 'Heydemann2013' in file 'BibTexDatabase.bib'
+[1115] Utils.pm:147> WARN - Possible typo (case mismatch) between datasource keys: 'Przeworski2009' and 'przeworski2009' in file 'BibTexDatabase.bib'
+[1138] Utils.pm:147> WARN - Possible typo (case mismatch) between datasource keys: 'Smith2007' and 'smith2007' in file 'BibTexDatabase.bib'
+[1228] Utils.pm:147> WARN - Datamodel: Entry 'bizarro2016' (BibTexDatabase.bib): Invalid format 'April 5' of date field 'date' - ignoring
+[1229] Utils.pm:147> WARN - Datamodel: Entry 'bizarro2016' (BibTexDatabase.bib): Invalid format 'Aug. 11, 2016' of date field 'urldate' - ignoring
+[2193] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[2193] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[2193] Biber.pm:2931> INFO - Sorting list 'apa' of type 'entry' with scheme 'apa' and locale 'en-US'
+[2194] Biber.pm:2935> INFO - No sort tailoring available for locale 'en-US'
+[2367] bbl.pm:505> INFO - Writing 'manuscript.bbl' with encoding 'ascii'
+[2371] Utils.pm:147> WARN - The entry 'Acemoglu2006' has characters which cannot be encoded in 'ascii'. Recoding problematic characters into macros.
+[2375] Utils.pm:147> WARN - The entry 'acemoglu2009' has characters which cannot be encoded in 'ascii'. Recoding problematic characters into macros.
+[2388] Utils.pm:147> WARN - The entry 'plumper2007' has characters which cannot be encoded in 'ascii'. Recoding problematic characters into macros.
+[2390] bbl.pm:596> INFO - Output to manuscript.bbl
+[2396] Biber.pm:107> INFO - WARNINGS: 12

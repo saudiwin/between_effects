@@ -1,0 +1,692 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.5 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{apa}{apa}
+    \entry{abadie2005}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=da499bff747c5f6cd0ec9185c820ba4d}{Abadie}{A\bibinitperiod}{Alberto}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{da499bff747c5f6cd0ec9185c820ba4d}
+      \strng{fullhash}{da499bff747c5f6cd0ec9185c820ba4d}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelyear}{2005}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Review of Economic Studies}
+      \field{number}{1}
+      \field{title}{Semiparametric Difference-in-Differences Estimators}
+      \field{volume}{72}
+      \field{year}{2005}
+      \field{pages}{1\bibrangedash 19}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1111/0034-6527.00321
+      \endverb
+    \endentry
+    \entry{Acemoglu2006}{book}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=ae053a86a39756e9642540d1d391d926}{Acemo\u{g}lu}{A\bibinitperiod}{Daron}{D\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=b9100df232414fd9653e4a81f6f02bb5}{Robinson}{R\bibinitperiod}{James}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{65e229189dbf391085f3862d493c7c41}
+      \strng{fullhash}{65e229189dbf391085f3862d493c7c41}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelyear}{2006}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Economic origins of dictatorship and democracy}
+      \field{year}{2006}
+      \keyw{Inequality and Transitions,Democratic Transitions,Game Theory and Formal Modeling}
+    \endentry
+    \entry{acemoglu2009}{article}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,hash=ae053a86a39756e9642540d1d391d926}{Acemo\u{g}lu}{A\bibinitperiod}{Daron}{D\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=c2ab1a921104de2c2dc232d6b9dce11d}{Robinson}{R\bibinitperiod}{James\bibnamedelima A}{J\bibinitperiod\bibinitdelim A\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=38e00ab25a60509b785c20ef8caa89b9}{Johnson}{J\bibinitperiod}{Simon}{S\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=983c9cd4575e424c24fa988ada1066ba}{Yared}{Y\bibinitperiod}{Pierre}{P\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{53de8c7d462569dd24a9fd04aa2d8194}
+      \strng{fullhash}{d462b7c57e2fa41e865891277492175d}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelyear}{2009}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{annotation}{\newline Acemoglu et al put forward their own argument about income and democratization. They think that income does matter to democratization but that the channel is through the institutional makeup of countries. For that reason they re-estimate Przeworski and other models using country fixed effects. When they do so, the variation from income on the DV is no longer explained (they use Polity and Przeworksi as DVs). They think that the ``critical juncture" of colonization (re: their earlier work) explains these different institutional trajectories, although they are not clear why these trajectories would necessarily result in democratization. It appears that they are explaining differences in income more than differences in democratization. They also note that they are controlling for time covariation, which they assert soaks up a lot of variation and should be further explained. Note as well that Boix critiques them for using historical time windows that are too long and inflate standard errors (25-year lags). \newline}
+      \field{journaltitle}{Journal of Monetary Economics}
+      \field{number}{8}
+      \field{title}{Reevaluating the Modernization Hypothesis}
+      \field{volume}{56}
+      \field{year}{2009}
+      \field{pages}{1043\bibrangedash 1058}
+      \range{pages}{16}
+      \keyw{Democratic Transitions,Inequality and Transitions}
+    \endentry
+    \entry{andersenross2014}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=88e86ea09f529a22189d13dd9cc9bfd4}{Andersen}{A\bibinitperiod}{Jorgen\bibnamedelima J.}{J\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=8f195009d61c7897cb32ffdfc1c9b2d1}{Ross}{R\bibinitperiod}{Michael\bibnamedelima L.}{M\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{b7224e05af459c9476be4e62b9c9dbf8}
+      \strng{fullhash}{b7224e05af459c9476be4e62b9c9dbf8}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelyear}{2014}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Comparative Political Studies}
+      \field{number}{7}
+      \field{title}{The Big Oil Change: A Closer Look at the Haber-Menaldo Analys}
+      \field{volume}{47}
+      \field{year}{2014}
+      \field{pages}{993\bibrangedash 1021}
+      \range{pages}{29}
+      \keyw{Oil,Democratic Transitions,Time Series}
+    \endentry
+    \entry{arellano2003}{book}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=6b9818f5875c27a0cfbcbcd637e4eed9}{Arellano}{A\bibinitperiod}{Manuel}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford, UK: Oxford University Press}%
+      }
+      \strng{namehash}{6b9818f5875c27a0cfbcbcd637e4eed9}
+      \strng{fullhash}{6b9818f5875c27a0cfbcbcd637e4eed9}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelyear}{2003}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Panel Data Econometrics}
+      \field{year}{2003}
+    \endentry
+    \entry{beckkatz1995}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=d5148cebb18611ce1c74228c4b3f0567}{Beck}{B\bibinitperiod}{Nathaniel}{N\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=96aef90a9dc20d4b9461306e4fee1160}{Katz}{K\bibinitperiod}{Jonathan\bibnamedelima N.}{J\bibinitperiod\bibinitdelim N\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{f390d808c864f5597882eaee8484a6b4}
+      \strng{fullhash}{f390d808c864f5597882eaee8484a6b4}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{1995}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Political Science Review}
+      \field{number}{3}
+      \field{title}{What To Do (and Not to Do) with Time-Series Cross-Section Data}
+      \field{volume}{89}
+      \field{year}{1995}
+      \field{pages}{634\bibrangedash 647}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.2307/2082979
+      \endverb
+    \endentry
+    \entry{beckkatzturner1998}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=d5148cebb18611ce1c74228c4b3f0567}{Beck}{B\bibinitperiod}{Nathaniel}{N\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=96aef90a9dc20d4b9461306e4fee1160}{Katz}{K\bibinitperiod}{Jonathan\bibnamedelima N.}{J\bibinitperiod\bibinitdelim N\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=08be40d6eb67b12e2e27a4996c395e3e}{Tucker}{T\bibinitperiod}{Richard}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{91ce32df8f71e090649d53d8aee14f04}
+      \strng{fullhash}{4723b526c2140acbdec26952f6666fd8}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{1998}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Journal of Political Science}
+      \field{number}{4}
+      \field{title}{Taking Time Seriously: Time-Series-Cross-Section Analysis with a Binary Dependent Variable}
+      \field{volume}{42}
+      \field{year}{1998}
+      \field{pages}{1260\bibrangedash 1288}
+      \range{pages}{29}
+      \verb{doi}
+      \verb 10.2307/2991857
+      \endverb
+    \endentry
+    \entry{bizarro2016}{report}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=613fc783acf586b267b70022d5a43b94}{Bizarro}{B\bibinitperiod}{Fernando}{F\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=de0eebdefcf0e3d8bbef5ca455ee8445}{Coppedge}{C\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=5467088017ca3ef134c8cff485ce6b7a}{Pemstein}{P\bibinitperiod}{Daniel}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{2872770861d47ea7f95a55441e4871bb}
+      \strng{fullhash}{308937388cbd6cdf942cf023b13e4197}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2016}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{pagetotal}{32}
+      \field{title}{Incorporating V-Dem's Uncertainty Estimates in Regression Analysis}
+      \field{type}{Working Paper}
+      \field{year}{2016}
+      \verb{url}
+      \verb https://kellogg.nd.edu/projects/vdem/files/2016/tutorial.pdf
+      \endverb
+      \warn{\item Datamodel: Entry 'bizarro2016' (BibTexDatabase.bib): Invalid format 'April 5' of date field 'date' - ignoring}
+      \warn{\item Datamodel: Entry 'bizarro2016' (BibTexDatabase.bib): Invalid format 'Aug. 11, 2016' of date field 'urldate' - ignoring}
+    \endentry
+    \entry{boix2011}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=428c46bc733f20d7ce6454a9590347dc}{Boix}{B\bibinitperiod}{Carles}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{428c46bc733f20d7ce6454a9590347dc}
+      \strng{fullhash}{428c46bc733f20d7ce6454a9590347dc}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2011}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{annotation}{\newline Boix puts forward a complementary argument to his assertion that both income and inequality matter for democratic transitions. In particular, he proposes that the international order mitigates and shapes the way that domestic variables influence transitions. He thinks that income matters mostly at low levels of income due to the declining marginal effect of income, while inequality matters at all income leves. However, income as a variable is most significant on democratic transition \& consolidation when the international order is receptive to democracy: i.e., when hegemons either don't have to worry about challengers with different institituions or a multi-polar world with institutional diversity across alliances. He finds that income is significant as an influence on democratization when the international order is most receptive, such as between WWI and WWII. \newline \newline He puts forward a well-developed database of his own Boix-Rosato codings and also the Polity database as a DV. He uses a variety of models with various attempts to instrument for income (such as genetic differences of populations in 1800). He also uses Granger causality tests and the full range of time series models to put forward his conclusions. Overall a strong argument, although the use of interactive variables is primarily restricted to categories even when he has continuous variables (i.e., log GDP). It seems to be a better strategy to use interactive graphs to find the effect. \newline}
+      \field{journaltitle}{American Political Science Review}
+      \field{number}{4}
+      \field{title}{Democracy, Development, and the International System}
+      \field{volume}{105}
+      \field{year}{2011}
+      \field{pages}{809\bibrangedash 828}
+      \range{pages}{20}
+      \keyw{Democratic Transitions,Inequality and Transitions,Int'l Env and Transitions}
+    \endentry
+    \entry{Boix2012}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=428c46bc733f20d7ce6454a9590347dc}{Boix}{B\bibinitperiod}{Carles}{C\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=e216a59e7c6beded03b974b7e2e71e95}{Miller}{M\bibinitperiod}{M.}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=57902688bd273b505aa8f9c13a3bec3e}{Rosato}{R\bibinitperiod}{S.}{S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{0fde8d82d937682f9d630104150343e6}
+      \strng{fullhash}{ba9272859a8ac46afcea9b5c2b47c716}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2013}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0010-4140}
+      \field{journaltitle}{Comparative Political Studies}
+      \field{number}{12}
+      \field{title}{A Complete Data Set of Political Regimes, 1800-2007}
+      \field{volume}{46}
+      \field{year}{2013}
+      \field{pages}{1523\bibrangedash 1554}
+      \range{pages}{32}
+      \verb{file}
+      \verb :C\:\\Users\\Bob\\Documents\\My Box Files\\7090 research final paper\\Boix, Miller and Rosato data\\Boix, Miller and Rosato 2013 A Complete Data Set of Political Regimes.pdf:PDF
+      \endverb
+    \endentry
+    \entry{Boix2003}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=428c46bc733f20d7ce6454a9590347dc}{Boix}{B\bibinitperiod}{Carles}{C\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=27cc68197ecafa7b0e7784d5a6c2b2e1}{Stokes}{S\bibinitperiod}{Susan\bibnamedelima Carol}{S\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{2c029e9fda4d1d544d79a8ed103d1373}
+      \strng{fullhash}{2c029e9fda4d1d544d79a8ed103d1373}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2003}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{annotation}{\newline This is the first reply to P \& L's study of modernization theory and facts. Their main critique is that at higher levels of income there are fewer authoritarian countries with which to estimate probabilities. They also argue the time scope is restricted, starting only at 1950. Also there is strong ommitted variable bias by excluding soviet countries and countries in the middle east. They use a dynamic probit model. They are do model simulations which help make sense of the coefficients. The out of sample prediction is the best critique of P \& L; it seems that the endogenous theory is primarily about democratization in Europe prior to 1925. \newline \newline Note that instead of controlling for oil and Soviet countries, they just remove the countries from their sample and rerun the model. A rather odd thing to do. If you re-run the simulation with a different sample, the coefficients used to calculate the sample won't change and you'll get an out-of-sample prediction. \newline}
+      \field{journaltitle}{World politics}
+      \field{number}{4}
+      \field{title}{Endogenous democratization}
+      \field{volume}{55}
+      \field{year}{2003}
+      \field{pages}{517\bibrangedash 549}
+      \range{pages}{33}
+      \verb{url}
+      \verb http://muse.jhu.edu/journals/wp/summary/v055/55.4boix.html
+      \endverb
+      \keyw{Democratic Transitions,Inequality and Transitions}
+    \endentry
+    \entry{boyd2010}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=479c273ba9a3e954976d619882a49d2d}{Boyd}{B\bibinitperiod}{Christina\bibnamedelima L.}{C\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=87e5875e4980b86836b579ac43f958f0}{Epstein}{E\bibinitperiod}{Lee}{L\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=6c8fc8a25699b2d0b81703662d566243}{Martin}{M\bibinitperiod}{Andrew\bibnamedelima D.}{A\bibinitperiod\bibinitdelim D\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{8abbf91e1e391d1861085626ccc9f738}
+      \strng{fullhash}{e8d14b85fccc165a0f8d50dfcf494661}
+      \field{sortinit}{B}
+      \field{sortinithash}{4ecbea03efd0532989d3836d1a048c32}
+      \field{labelyear}{2010}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Journal of Political Science}
+      \field{number}{2}
+      \field{title}{Untangling the Causal Effects of Sex on Judging}
+      \field{volume}{54}
+      \field{year}{2010}
+      \field{pages}{389\bibrangedash 411}
+      \range{pages}{23}
+    \endentry
+    \entry{coppedge2012}{book}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=de0eebdefcf0e3d8bbef5ca455ee8445}{Coppedge}{C\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{de0eebdefcf0e3d8bbef5ca455ee8445}
+      \strng{fullhash}{de0eebdefcf0e3d8bbef5ca455ee8445}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelyear}{2012}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{annotation}{\newline In Ch. 2, Coppedge calls for a merging of the "thick" and "thin" approaches to measuring democratization. Thick implies the kind of work that Schmitter and O'Donnell used to do, trying to identify the many features of democracy in a broadly conceptual sense. Thin implies a close link to the Dahlian conception of democracy, particularly in terms of contestation. Coppedge alleges that many quantitative indicators of democracy are unduly biased towards contestation even over the use of inclusion. He also notes that even if there is random error in measurement, quantitative indicators can still have valid results as that only makes it harder to get a true result. \newline \newline Coppedge believes that quantitative indicators should become more complex, have more dimensions, and that a lot more attention needs to be paid to how to aggregate underlying measurements into overall indices. He is critical of indices that use simple averages or additive methods, and he notes that only "ratio" (i.e. interval) measures are fully able to be added or divided without any loss of information. \newline}
+      \field{title}{Democratization and Research Methods}
+      \field{year}{2012}
+      \keyw{Democratic Transitions,Causal Methodology}
+    \endentry
+    \entry{vdem2016}{online}{}
+      \name{author}{20}{}{%
+        {{uniquename=0,hash=de0eebdefcf0e3d8bbef5ca455ee8445}{Coppedge}{C\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=a6a0cbfe9daf777684dbb8947a681e73}{Gerring}{G\bibinitperiod}{John}{J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=ee45887f1528acefe73446b754436b12}{Linberg}{L\bibinitperiod}{Staffan\bibnamedelima I.}{S\bibinitperiod\bibinitdelim I\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=1c08ec863ba516c47c57bc8e08c44a25}{Skaaning}{S\bibinitperiod}{Svend-Erik}{S\bibinithyphendelim E\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=3ab416074c4b326b5a0ecf40629d221f}{Teorell}{T\bibinitperiod}{Jan}{J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=af43ba3259f7ba0f7d2dd10334dfe5b4}{Altman}{A\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=5eaba9edc5caa618157dccec75fcb233}{Bernhard}{B\bibinitperiod}{Michael}{M\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=69827278bd711aef237fb4a0ad6af181}{Fish}{F\bibinitperiod}{M.\bibnamedelimi Steven}{M\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=31b0a1a2cf45441187a2bfa0844c03e1}{Glynn}{G\bibinitperiod}{Adam}{A\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=f9ce0a9c28924ca7fde07b4a5bc2625a}{Hicken}{H\bibinitperiod}{Allen}{A\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=8ba74cf26121f14b1de7ebca2f5d9cf2}{Knutsen}{K\bibinitperiod}{Carl\bibnamedelima Henrick}{C\bibinitperiod\bibinitdelim H\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=f363f919e2be59bd53b03f6422ceafb3}{McMann}{M\bibinitperiod}{Kelly}{K\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=c431ebb8aa47a9bf340d6a512213ff10}{Paxton}{P\bibinitperiod}{Pamela}{P\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=5467088017ca3ef134c8cff485ce6b7a}{Pemstein}{P\bibinitperiod}{Daniel}{D\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=3c028e445227f4ec9279e768753a11f7}{Staton}{S\bibinitperiod}{Jeffrey}{J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=52e31c58c2cdb4ff2ce306ea9cf14fd6}{Zimmerman}{Z\bibinitperiod}{Brigitte}{B\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=2649eb0cc0d37ebde0060216329dc8ba}{Sigman}{S\bibinitperiod}{Rachel}{R\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=7617a5794f321f2c2608a542f2bb89fc}{Andersson}{A\bibinitperiod}{Frida}{F\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=ebed316c5ee9215c2c12ff6c49b22f31}{Mechkova}{M\bibinitperiod}{Valeriya}{V\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=64a7576f44780eb5f01fe5f6cfab59d4}{Miri}{M\bibinitperiod}{Farhad}{F\bibinitperiod}{}{}{}{}}%
+      }
+      \list{organization}{1}{%
+        {Varieties of Democracy (V-DEM) Project}%
+      }
+      \strng{namehash}{b9824f70adf73e93dc51ab751873da04}
+      \strng{fullhash}{875b95e6ed8c9925de2ddc216cea8e73}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelyear}{2016}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{V-Dem Codebook v6}
+      \field{year}{2016}
+    \endentry
+    \entry{donno2013}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=cb01619506fc516ab2b8a565e5d2e7e5}{Donno}{D\bibinitperiod}{Daniela}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{cb01619506fc516ab2b8a565e5d2e7e5}
+      \strng{fullhash}{cb01619506fc516ab2b8a565e5d2e7e5}
+      \field{sortinit}{D}
+      \field{sortinithash}{78f7c4753a2004675f316a80bdb31742}
+      \field{labelyear}{2013}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Journal of Political Science}
+      \field{number}{3}
+      \field{title}{Elections and Democratization in Authoritarian Regimes}
+      \field{volume}{57}
+      \field{year}{2013}
+      \field{pages}{703\bibrangedash 716}
+      \range{pages}{14}
+    \endentry
+    \entry{gabel2012}{article}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,hash=b6b85662d85f424f3c74626171e28add}{Gabel}{G\bibinitperiod}{Matthew\bibnamedelima J.}{M\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=2a4a58f8be42e74c4f75525d6be4afb0}{Carruba}{C\bibinitperiod}{Clifford\bibnamedelima J.}{C\bibinitperiod\bibinitdelim J\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=0ca1bc876d1b5c1bd0151bb228cb6bf9}{Ansley}{A\bibinitperiod}{Caitlin}{C\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=83983ab75644cb6489c65156404d05ca}{Beaudette}{B\bibinitperiod}{Donald\bibnamedelima M.}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{1851663a7efb6281c66f46280f6d258c}
+      \strng{fullhash}{74d71ca0274151e4d2578880ea083adc}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelyear}{2012}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Journal of Politics}
+      \field{number}{4}
+      \field{title}{Of Courts and Commerce}
+      \field{volume}{74}
+      \field{year}{2012}
+      \field{pages}{1125\bibrangedash 1137}
+      \range{pages}{13}
+    \endentry
+    \entry{hm2011}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=5cf1a68e3e935963f54106c1a8fcaaf8}{Haber}{H\bibinitperiod}{Stephen}{S\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=92c1c82ecd79e3ff7f1e804b986b7523}{Menaldo}{M\bibinitperiod}{Victor}{V\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{85495280a6d1e3a83d61e3c6023ad67e}
+      \strng{fullhash}{85495280a6d1e3a83d61e3c6023ad67e}
+      \field{sortinit}{H}
+      \field{sortinithash}{82012198d5dfa657b8c4a168793268a6}
+      \field{labelyear}{2011}
+      \field{labelmonth}{02}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Political Science Review}
+      \field{month}{02}
+      \field{title}{Do Natural Resources Fuel Authoritarianism? A Reappraisal of the Resource Curse}
+      \field{volume}{105}
+      \field{year}{2011}
+      \field{pages}{1\bibrangedash 26}
+      \range{pages}{26}
+      \keyw{CPE,Oil Wealth,Democratic Transitions,Autocratic Durability,Time Series}
+    \endentry
+    \entry{hall2014}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=bb3e00f744fbbe547df9265add648677}{Hall}{H\bibinitperiod}{Matthew\bibnamedelimb E.\bibnamedelimi K.}{M\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim K\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{bb3e00f744fbbe547df9265add648677}
+      \strng{fullhash}{bb3e00f744fbbe547df9265add648677}
+      \field{sortinit}{H}
+      \field{sortinithash}{82012198d5dfa657b8c4a168793268a6}
+      \field{labelyear}{2014}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Journal of Political Science}
+      \field{number}{2}
+      \field{title}{The Semiconstrained Court: Public Opinion, the Separation of Powers, and the U.S. Supreme Court's Fear of Nonimplementation}
+      \field{volume}{58}
+      \field{year}{2014}
+      \field{pages}{352\bibrangedash 366}
+      \range{pages}{15}
+    \endentry
+    \entry{Houle2009}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=c58fe37c3b4e673d2906398c1615bd7a}{Houle}{H\bibinitperiod}{Christian}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge Univ Press}%
+      }
+      \strng{namehash}{c58fe37c3b4e673d2906398c1615bd7a}
+      \strng{fullhash}{c58fe37c3b4e673d2906398c1615bd7a}
+      \field{sortinit}{H}
+      \field{sortinithash}{82012198d5dfa657b8c4a168793268a6}
+      \field{labelyear}{2009}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{annotation}{\newline Houle is saying that costs of repression are dependent on costs of toleration (i.e., inequality). Boix is saying that they are independent of each other. We expect higher inequality to lower democratic survival but to have no effect on democratic transition. Note though he uses a different measure of inequality than Boix so it is hard to contrast the findings to each other. He also covers more countries over a different year span. Note that industrialization varies over time, so capital shares has a different meaning over time. Boix's use of Deininger and Squire has greater conceptual validity but much less quality and coverage. \newline}
+      \field{journaltitle}{World Politics}
+      \field{number}{4}
+      \field{title}{Inequality and Democracy}
+      \field{volume}{61}
+      \field{year}{2009}
+      \field{pages}{589\bibrangedash 622}
+      \range{pages}{34}
+      \keyw{Inequality and Transitions}
+    \endentry
+    \entry{imai2016}{unpublished}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=3fb69a8c942c769b74775b484c82bbe9}{Imai}{I\bibinitperiod}{Kosuke}{K\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=74b0189a74aec0dde63e3612b3c9dc9c}{Kim}{K\bibinitperiod}{In\bibnamedelima Song}{I\bibinitperiod\bibinitdelim S\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{6c3d7e946a92c6d05706a281fc7307a0}
+      \strng{fullhash}{6c3d7e946a92c6d05706a281fc7307a0}
+      \field{sortinit}{I}
+      \field{sortinithash}{25e99d37ba90f7c4fb20baf4e310faf3}
+      \field{labelyear}{2016}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Online}
+      \field{title}{When Should We Use Linear Fixed Effects Regression Models for Causal Inference with Longitudinal Data?}
+      \field{year}{2016}
+    \endentry
+    \entry{inglehart2005}{book}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=69541f036ddf12196cd1d0a2606b2847}{Inglehart}{I\bibinitperiod}{Ronald}{R\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=8d371ba4db7c6b18cb2700470f9ed06f}{Welzel}{W\bibinitperiod}{Christian}{C\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {New York: Cambridge University Press}%
+      }
+      \strng{namehash}{d4fad66ef2653fa2295a1086821aa994}
+      \strng{fullhash}{d4fad66ef2653fa2295a1086821aa994}
+      \field{sortinit}{I}
+      \field{sortinithash}{25e99d37ba90f7c4fb20baf4e310faf3}
+      \field{labelyear}{2005}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{\newline Inglehart wrote this book because he needed to have measures of democracy which preceded the survey analysis. His former work was widely criticized for reverse causality. Inglehart wants to re-emphasize a trajectory to modernity via economic change expressing itself in culture. Culture is independent of economics and shows path-dependence. Thus, econ --> culture --> politics, but econ also directly affects politics so culture has an independent trajectory. Relationship is probabilistic without full convergence. \newline \newline On effective democracy -- note that FH scores include a measure of state capacity, thus multiplying the scores by World Bank corruption index is rather odd. Aggregation rule is obscure. There is something wrong as well with the argument on face: many countries democratized before they became post-industrial. What is the causal link btw. self-expressive values and democracy? You want to make your own choices, hence you need institutions to allow you to make your own choices. We have to believe that people made these demands on the system. That demand must create a supply of democracy. Unfortunately, we don't know if the people who led the change to democracy were the ones who also were pro-democratic in terms of culture. This is what Coppedge calls the ecological fallacy. Even if they do demand, why should demand create its own supply? \newline \newline Inglehart recognizes he has 3 threats to validity: 1) endogeneity of time (institutions-->values), 2) autocorrelation (past democracy predicts future democracy) and 3) spurious causation in terms of development (GDP). He uses Vanhanen's index to measure socioeconomic development (very idiosyncratic). He also uses different samples to make different statistical models which he then compares against each other. \newline}
+      \field{title}{Modernization, Cultural Change and Democracy: The Human Development Sequence}
+      \field{year}{2005}
+    \endentry
+    \entry{jenkins2012}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=1e307be725e77c85eeef129ef70add5d}{Jenkins}{J\bibinitperiod}{Jeffrey\bibnamedelima A.}{J\bibinitperiod\bibinitdelim A\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=e872b94c65bf978be5b4b2e28200ef94}{Monroe}{M\bibinitperiod}{Nathan\bibnamedelima W.}{N\bibinitperiod\bibinitdelim W\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{5dcc87fd190f9576f6bffd25b98b2adc}
+      \strng{fullhash}{5dcc87fd190f9576f6bffd25b98b2adc}
+      \field{sortinit}{J}
+      \field{sortinithash}{ec3950a647c092421b9fcca6d819504a}
+      \field{labelyear}{2012}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Journal of Political Science}
+      \field{number}{4}
+      \field{title}{Buying Negative Agenda Control in the U.S. House}
+      \field{volume}{56}
+      \field{year}{2012}
+      \field{pages}{897\bibrangedash 912}
+      \range{pages}{16}
+    \endentry
+    \entry{kennedy2010}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=6f4db04b5d534598c255e763e3da84ff}{Kennedy}{K\bibinitperiod}{Ryan}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{6f4db04b5d534598c255e763e3da84ff}
+      \strng{fullhash}{6f4db04b5d534598c255e763e3da84ff}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelyear}{2010}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Politics}
+      \field{number}{3}
+      \field{title}{The Contradiction of Modernization: A Conditional Model of Endogenous Democratization}
+      \field{volume}{72}
+      \field{year}{2010}
+      \field{pages}{785\bibrangedash 798}
+      \range{pages}{14}
+    \endentry
+    \entry{shahidur2010}{book}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,hash=7b3d246f2ca9776534d04eae79f75500}{Khandker}{K\bibinitperiod}{Shahidur\bibnamedelima R.}{S\bibinitperiod\bibinitdelim R\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=2f4721cf626b97bc60a5e552ee70b6ca}{Koolwal}{K\bibinitperiod}{Gayatri\bibnamedelima B.}{G\bibinitperiod\bibinitdelim B\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=180397c02966a1899da73640ed72c889}{Samad}{S\bibinitperiod}{Hussain\bibnamedelima A.}{H\bibinitperiod\bibinitdelim A\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Washington D.C.: World Bank}%
+      }
+      \strng{namehash}{e02c31ebd00bade90bd46b299729ce46}
+      \strng{fullhash}{1f21b31f39fb3779f1827d6971bfdd48}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelyear}{2010}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Handbook on Impact Evaluation: Quantitative Methods and Practices}
+      \field{year}{2010}
+      \keyw{Causal Methodology,Differences-in-Differences}
+    \endentry
+    \entry{lazarus2009}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=83fa7e5f96c00e43f5681a6ca8a335d1}{Lazarus}{L\bibinitperiod}{Jeffrey}{J\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{83fa7e5f96c00e43f5681a6ca8a335d1}
+      \strng{fullhash}{83fa7e5f96c00e43f5681a6ca8a335d1}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelyear}{2009}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Journal of Politics}
+      \field{number}{3}
+      \field{title}{Party, Electoral Vulnerability, and Earmarks in the U.S. House of Representatives}
+      \field{volume}{71}
+      \field{year}{2009}
+      \field{pages}{1050\bibrangedash 1061}
+      \range{pages}{12}
+    \endentry
+    \entry{Limongi1997}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=88ec283c6ce5321ef148fd3b094ea22c}{Limongi}{L\bibinitperiod}{Fernando}{F\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=237ce3973c734b4bc7f49bb4a367df9d}{Przeworski}{P\bibinitperiod}{Adam}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge Univ Press}%
+      }
+      \strng{namehash}{a55988982cbfddab4cd4ea38145ec85c}
+      \strng{fullhash}{a55988982cbfddab4cd4ea38145ec85c}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelyear}{1997}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{annotation}{\newline This piece was far ahead of its time in terms of application of statistical theory to the study of democratization. Very concrete set of questions instead of a vague relationship between income and democracy. Endogenous -- as income rises, transitions occur. Exogenous -- once you are democratic you stay democratic. P-DD and P-AD are uncorrelated. Their refutation of the endogenous theory depends on whether you think the relationship is monotonic. It isn't monotonic, but you can redefine the theory to avoid monotonicity. Note though this paper is not truly statistical inference: they are simply doing sophisticated crosstabs. \newline}
+      \field{journaltitle}{World politics}
+      \field{number}{2}
+      \field{title}{Modernization: Theories and facts}
+      \field{volume}{49}
+      \field{year}{1997}
+      \field{pages}{155\bibrangedash 183}
+      \range{pages}{29}
+      \verb{file}
+      \verb :C\:\\Users\\Bob\\Documents\\My Box Files\\TA PLCP 1010\\Przeworski and Limongi (1997) Modernization Theories and Facts.pdf:PDF
+      \endverb
+      \verb{url}
+      \verb http://journals.cambridge.org/production/action/cjoGetFulltext?fulltextid=7603020
+      \endverb
+      \keyw{Democratic Transitions,RA PLCP 1010,Inequality and Transitions}
+    \endentry
+    \entry{plumper2007}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=df9169dc1a402407872df5ca42a906b2}{Pl\"{u}mper}{P\bibinitperiod}{Thomas}{T\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=93633bc1dbbba4800ccd823a8da836ab}{Troeger}{T\bibinitperiod}{Vera\bibnamedelima E.}{V\bibinitperiod\bibinitdelim E\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{2ba9bcb874ac2e081555bd6f409e0d3d}
+      \strng{fullhash}{2ba9bcb874ac2e081555bd6f409e0d3d}
+      \field{sortinit}{P}
+      \field{sortinithash}{c0a4896d0e424f9ca4d7f14f2b3428e7}
+      \field{labelyear}{2007}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Political Analysis}
+      \field{number}{2}
+      \field{title}{Efficient Estimation of Time-Invariant and Rarely Changing Variables in Finite Sample Panel Analyses with Unit Fixed Effects}
+      \field{volume}{15}
+      \field{year}{2007}
+      \field{pages}{124\bibrangedash 139}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1093/pan/mpm002
+      \endverb
+    \endentry
+    \entry{scheve2012}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,hash=97ae29af39bd916ce60e635093d7dd88}{Scheve}{S\bibinitperiod}{Kenneth}{K\bibinitperiod}{}{}{}{}}%
+        {{uniquename=0,hash=e1e1ba1cc29b408b7c6a8ec15ab215df}{Stasavage}{S\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{d14c0c879aee813d7c71ceecf46e7be7}
+      \strng{fullhash}{d14c0c879aee813d7c71ceecf46e7be7}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelyear}{2012}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Political Science Review}
+      \field{number}{1}
+      \field{title}{Democracy, War and Wealth: Lessons from Two Centuries of Inheritance Taxation}
+      \field{volume}{106}
+      \field{year}{2012}
+      \field{pages}{81\bibrangedash 102}
+      \range{pages}{22}
+    \endentry
+    \entry{stimson1985}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,hash=a6339dffc513a86d9806e8694f9b2bd4}{Stimson}{S\bibinitperiod}{James\bibnamedelima A.}{J\bibinitperiod\bibinitdelim A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{a6339dffc513a86d9806e8694f9b2bd4}
+      \strng{fullhash}{a6339dffc513a86d9806e8694f9b2bd4}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelyear}{1985}
+      \field{datelabelsource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Journal of Political Science}
+      \field{number}{4}
+      \field{title}{Regression in Space and Time: A Statistical Essay}
+      \field{volume}{29}
+      \field{year}{1985}
+      \field{pages}{914\bibrangedash 947}
+      \range{pages}{34}
+      \verb{doi}
+      \verb 10.2307/2111187
+      \endverb
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

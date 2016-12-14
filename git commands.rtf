@@ -1,0 +1,189 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1347\cocoasubrtf570
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red25\green49\blue68;}
+\margl1440\margr1440\vieww22220\viewh8400\viewkind1
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 Git commands\
+\
+1) 
+\b setwd
+\b0  
+\i directory
+\i0  \'97 to navigate to the working directory\
+\
+2) 
+\b git init
+\b0  \'97 initialize this directory as a git repository, allows you to be able to track changes, revert to old versions, etc.  It sets up the "staging area" to add files, before committing them to the repository\
+\
+3) 
+\b git add
+\b0  
+\i filename
+\i0  \'97 add a file to the staging area to be able to track changes.  Have to add the file again and again each time you save it.  Important to add before commit because that's the point when you can use 
+\b git diff
+\b0  to see the changes\
+\
+4) 
+\b git status
+\b0  \'97  check on which tracked files have changed, which have not changed, and also lists the files in the working directory that are not tracked\
+\
+5) 
+\b git diff
+\b0  
+\i filename
+\i0  \'97 show the changes between the current file and the one most recently committed to the git repository.  May need to press q on the keyboard to return to a regular terminal prompt\
+\
+6) 
+\b git commit -m
+\b0  
+\b "
+\i\b0 message
+\i0\b "
+\b0  \'97 move files from the staging area (once added) to the permanent git repository.  The message should be descriptive about what this new version of the files do\
+\
+7) 
+\b git log
+\b0  \'97 (NOT git list) shows a list of the commits with their date, time, and commit messages\
+\
+8) 
+\b git show HEAD 
+\b0 \'97 shows the most recent commit\
+\
+9) 
+\b git add
+\b0  
+\i filename1 filename2 filename3
+\i0  \'97 can add multiple files at once to a staging area\
+\
+10) 
+\b git checkout HEAD
+\b0  
+\i filename
+\i0  \'97 discard the current changes in the working directory.  The 
+\b git checkout
+\b0  command is mostly used to prepare for a branch.  \
+\
+11) 
+\b git reset HEAD
+\b0  
+\i filename
+\i0  \'97 remove a file from the staging area.  This is a good thing to do if you don't want to commit the changes to a particular file in the staging area.  Opposite of 
+\b git add\
+\
+
+\b0 12) 
+\b git reset
+\b0  
+\i SHA
+\i0  \'97 revert files to old versions.  First type 
+\b git list
+\b0  to see the list of commits.  Each commit has a long code of letters and numbers.  The 
+\i SHA
+\i0  part of the command refers to the \ul first 7 characters\ulnone  of that code. This command also changes the HEAD commit (the most recent commit) since we've gone back in time.\
+\
+(Q: what is the difference between 
+\b git checkout
+\b0  and 
+\b git reset
+\b0 ? Checkout looks, reset reverts \'85)\
+\
+13) 
+\b git branch
+\b0  \'97 shows you which branch you are currently committing changes to files in the working directory to. By default, the original branch of a project is named 
+\b master
+\b0 . It lists ALL of the available branches, but puts a star next to the one you are in.
+\b \
+\
+
+\b0 14) 
+\b git branch
+\b0  
+\i new_branch_name
+\i0  \'97 creates a new branch at the point of the latest commit of the branch you are currently working in (master unless you've already branched and are in a different branch).  Changes you commit in the new branch will NOT appear in master UNLESS you use 
+\b git merge
+\b0  to bring that branch back into the master branch. Be sure to name the new branch something that describes the purpose of that branch.  The new branch carries over all of the previous commits of the old branch, but the old branch does not get the future commits of the new branch.\
+\
+15) 
+\b git checkout
+\b0  
+\i branch_name
+\i0  \'97 switch the branch you are working in.  This is different from 
+\b git checkout HEAD
+\b0  
+\i filename
+\i0  above because you give the command a branch name, not a commit name and file name.  With a branch name, 
+\b git checkout
+\b0  simply switches between branches.  With a commit name and file, it discards the changes in the working directory for that file and returns to the version of that file in the HEAD commit\
+\
+16) 
+\b git merge
+\b0  
+\i branch_name
+\i0  \'97 merge the branch named 
+\i branch_name
+\i0  into the branch that is CURRENTLY OPEN.  You must first navigate to the receiving branch with 
+\b git checkout 
+\i\b0 branch_name
+\i0 .\
+\
+(Q: what if there is a conflict between the master and branch files? \
+A: This is called a 
+\b merge conflict
+\b0 .  It happens if you create a branch, change files in that branch, navigate back to the original branch (master), change the same files in a different way, then try to merge.  Git will return an ERROR: "fix conflicts then commit the result."  The only way there is NOT a conflict is if the master branch is exactly an older commit of the newer branch.  Git will produce a version of the conflicted file with markings that show the conflict.  Edit this document manually.)\
+\
+17) 
+\b git branch -d
+\b0  
+\i branch_name
+\i0  \'97 delete a branch.  This command is useful after you have merged in the work in a branch to the master branch.\
+\
+\ul WORKING WITH REMOTE REPOSITORIES AND COLLABORATORS\
+\
+\ulnone 18) 
+\b git clone
+\b0  
+\i remote_location
+\i0  
+\i clone_name
+\i0  \'97  the argument 
+\i remote_location
+\i0  tells Git where to find the remote repository.  It can be a filepath, or a URL, like something on Github. The argument 
+\i clone_name
+\i0  is the name you give to the directory in which Git will clone the repository.  This command DOWNLOADS the directory into your present working directory, into a folder named 
+\i clone_name
+\i0 .\
+\
+19) 
+\b git remote -v
+\b0  \'97 once you've opened a connection with git clone, Git saves the connection's address under the name \ul origin\ulnone , although it is possible to safely change this name.  This command shows all the connections.  It is possible to 
+\b git checkout origin
+\b0  or another connection name.\
+\
+20) 
+\b git fetch
+\b0  
+\i connection
+\i0  \'97 goes to the remote directory indicated and downloads any new changes.  If no name is specified for connection, it assumes you mean origin.\
+\
+21) 
+\b git merge origin/master 
+\b0 \'97 merges the changes in the remote directory with your local master directory; downloads the changes to your local machine.  Remember, if there are conflicts, this command will produce and error and show you the conflicts.  This command is only possible if (1) you've opened the remote connection with 
+\b git clone
+\b0 , and (2) you've used 
+\b git fetch
+\b0  to check for changes in the remote directory\
+\
+\ul The workflow for git collaboration with remote repositories is as follows\ulnone :\
+	1) \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Fetch and merge changes from the remote\
+	2) Create a branch to work on a new project feature\
+	3) Develop the feature on your branch and commit your work\
+	4) Fetch and merge from the remote again (in case new commits were made while you were working)\
+	5) Push your branch up to the remote for review\
+\
+22) 
+\b git push origin
+\b0  
+\i your_branch_name
+\i0  \'97 sends the latest commit for the specified branch to the remote repository.  The remote repository will now also contain that branch.}
