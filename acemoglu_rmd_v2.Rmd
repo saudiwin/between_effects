@@ -6,7 +6,7 @@ output:
   pdf_document: default
 ---
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 # Re-analysis of Acemoglu et al.
 
 require(haven)
