@@ -10,10 +10,9 @@ require(modelr)
 require(broom)
 require(purrr)
 require(plotly)
-require(pbapply)
 require(parallel)
-fiveyear <- read_dta("~/R_Projects/between_effects/Acemoglu one year panel.dta")
-oneyear <- read_excel("~/R_Projects/between_effects/Income and Democracy Data AER adjustment.xls", 
+fiveyear <- read_dta("Acemoglu one year panel.dta")
+oneyear <- read_excel("Income and Democracy Data AER adjustment.xls", 
 sheet = "Annual Panel")
 
 # Panel Balance
@@ -25,7 +24,7 @@ fivey_tbalance <- fiveyear %>% group_by(year) %>% filter(!(is.nan(fhpolrigaug)) 
 oney_balance <- oneyear %>% group_by(country) %>% filter(!(is.na(fhpolrigaug)) & !(is.na(lrgdpch))) %>% 
   summarize(panel_balance=n())
 
-gplot <- fivey_balance %>% ggplot(aes(y=panel_balance,x=reorder(country,panel_balance))) + theme_minimal() + 
+gplot <- fivey_cbalance %>% ggplot(aes(y=panel_balance,x=reorder(country,panel_balance))) + theme_minimal() + 
   geom_bar(stat='identity') + xlab('country') + ylab('count')
 ggplotly(gplot)
 
@@ -166,27 +165,9 @@ fe_grid <- expand.grid(unique(five_year_2way$country),unique(five_year_2way$year
 fe_grid <- data_frame(country=c(as.character(fe_grid$Var1),unique(five_year_2way$country),rep('star wars',length(unique(five_year_2way$year)))),
                       year=c(as.character(fe_grid$Var2),rep(9999999,length(unique(five_year_2way$country))),unique(five_year_2way$year)))
 
-file.remove('~/R_Projects/between_effects/check_status.txt')
-start_time <- Sys.time()
-over_countries_nodv <- mclapply(1:nrow(fe_grid),function(i) {
-  counter <- i %% 100
-  this_country <- fe_grid$country[i]
-  this_year <- fe_grid$year[i]
-  this_reg <- filter(five_year_2way,country!=this_country,year!=as.numeric(this_year))
-  this_model <- coef(lm(data=this_reg,formula=fhpolrigaug~ l1_lrgdpch+ factor(year) + factor(country)))['l1_lrgdpch']
-  if(counter==0) {
 
-    current_time_ratio <- difftime(Sys.time(),start_time,units='hours')/i
-    remaining_units <- (nrow(fe_grid) - i)*current_time_ratio
-    cat(paste0('Finished row ',i,' time remaining: ',round(remaining_units,2),' hours\n'),file='~/R_Projects/between_effects/check_status.txt',append=TRUE)
-  }
-  return(this_model)
-  },mc.cores=4)
-over_countries_nodv <- unlist(over_countries_nodv)
-
-file.remove('~/R_Projects/between_effects/check_status.txt')
 start_time <- Sys.time()
-over_countries_dv <- mclapply(1:nrow(fe_grid),function(i) {
+over_countries_dv <- lapply(1:nrow(fe_grid),function(i) {
   counter <- i %% 100
   this_country <- fe_grid$country[i]
   this_year <- fe_grid$year[i]
@@ -196,32 +177,18 @@ over_countries_dv <- mclapply(1:nrow(fe_grid),function(i) {
     
     current_time_ratio <- difftime(Sys.time(),start_time,units='hours')/i
     remaining_units <- (nrow(fe_grid) - i)*current_time_ratio
-    cat(paste0('Finished row ',i,' time remaining: ',round(remaining_units,2),' hours\n'),file='~/R_Projects/between_effects/check_status.txt',append=TRUE)
+    print(paste0('Finished row ',i,' time remaining: ',round(remaining_units,2),' hours\n'))
   }
   return(this_model)
-},mc.cores=4)
+})
 over_countries_dv <- unlist(over_countries_dv)
-avg_diff <- scale((over_countries_nodv-over_countries_dv)/over_countries_nodv) 
-fe_grid %<>%  mutate(diff_coefs=as.numeric(avg_diff),
-                     perc_loss = 100*((over_countries_nodv-over_countries_dv)/over_countries_nodv),
-                     nodv=over_countries_nodv,
-                     dv=over_countries_dv)
-fe_grid %>% group_by(country) %>% summarize(avg_diff=mean(diff_coefs)) %>% 
-  ggplot(aes(x=reorder(country,avg_diff),y=avg_diff)) + geom_bar(stat='identity') + theme_minimal() + theme(axis.text.x = element_blank())
-fe_grid %>% group_by(country) %>% summarize(avg_diff=mean(perc_loss)) %>% 
-  ggplot(aes(x=reorder(country,avg_diff),y=avg_diff)) + geom_bar(stat='identity') + theme_minimal() + theme(axis.text.x = element_blank())
-fe_grid %>% left_join(five_year_2way,by='country') %>% group_by(country) %>% mutate(avg_diff=mean(perc_loss)) %>% 
-  ggplot(aes(y=panel_balance,x=perc_loss)) + geom_point() + theme_minimal()+ stat_smooth(method='lm')
-fe_grid %>% group_by(country) %>% summarize(avg_diff=mean(diff_coefs)) %>% 
-  ggplot(aes(x=reorder(country,avg_diff),y=avg_diff)) + geom_bar(stat='identity') + theme_minimal() 
 
-gplot <- fe_grid %>%
-  ggplot(aes(x=year,y=country,fill=diff_coefs)) + geom_tile() + theme_minimal() + theme(axis.text.y = element_blank()) 
-  ggplotly(gplot)
-
+fe_grid %<>%  mutate(coefs=over_countries_dv,year=ifelse(year=='9999999',NA,year))
+                     
 fe_grid %>% 
-  ggplot(aes(x=year,y=country,fill=diff_coefs)) + geom_tile() + theme_minimal() + theme(axis.text.y = element_blank())
-
+  ggplot(aes(x=year,y=country,fill=coefs)) + geom_tile() + theme_minimal() + theme(axis.text.y = element_blank()) +
+  xlab('Years') + ylab('Countries') + labs(fill='Estimates')
+ggsave(filename='ar_decomp.png',width=6,units='in')
 
 data1 <-  filter(oneyear,country %in% c('United States')) %>% select(country,year,fhpolrigaug,lrgdpch,l1_fhpolrigaug,l1_lrgdpch)
 coef(lm(data=data1,formula=fhpolrigaug~ lrgdpch + factor(year)))['lrgdpch']
