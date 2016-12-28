@@ -25,20 +25,20 @@ varnames <- paste0('V',2:900)
 
 model1 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + country_name,select_vars=c('e_migdppcln','country_name'),
                    num_iters=900,
-                   num_cores=1,dbcon=dbcon) %>% mutate(model_type="GDP Case Effects")
+                   num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP Case Effects")
 
 # One-way time effect
 
 model2 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor),select_vars=c('e_migdppcln','year_factor'),
          num_iters=900,
-         num_cores=1,dbcon=dbcon)  %>% mutate(model_type="GDP Time Effects")
+         num_cores=4,dbcon=dbcon)  %>% mutate(model_type="GDP Time Effects")
 
 # 2-way FEs
   
 model3 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + country_name,
                    select_vars=c('e_migdppcln','year_factor','country_name'),
                   num_iters=900,
-                  num_cores=1,dbcon=dbcon)  %>% mutate(model_type="GDP Two-way Effects")
+                  num_cores=4,dbcon=dbcon)  %>% mutate(model_type="GDP Two-way Effects")
 
 
 # All three are statistically significant, the within effect is the largest
@@ -53,29 +53,46 @@ model3 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + 
 
 model4 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + e_migdppcln*year_factor,select_vars=c('e_migdppcln','year_factor'),
                    num_iters=900,
-                   num_cores=1,dbcon=dbcon)  %>% mutate(model_type="GDP Interactive Time Effects")
+                   num_cores=4,dbcon=dbcon)  %>% mutate(model_type="GDP Interactive Time Effects")
 
 
 # One-way case FE that varies between countries
 
-model5 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + country_name + e_migdppcln*country_name,select_vars=c('e_migdppcln','country_name'),
+model5 <- run_vdem(varnames=varnames,
+                   full_formula=v2x_polyarchy ~ e_migdppcln + country_name + e_migdppcln*country_name,select_vars=c('e_migdppcln','country_name'),
                    num_iters=900,
-                   num_cores=1,dbcon=dbcon) %>% mutate(model_type="GDP Interactive Case Effects")
+                   num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP Interactive Case Effects")
+
+# One-way case FE that varies between time periods (test of Boix 2011)
+
+boix_country <- run_vdem(varnames=varnames,
+                         full_formula=v2x_polyarchy ~ e_migdppcln + country_name + time_period + e_migdppcln*country_name*time_period,select_vars=c('e_migdppcln','country_name','time_period'),
+                   num_iters=900,
+                   num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP Interactive Case Effects")
+
+# One-way time FE that varies between continents (test of Boix 2011)
+
+boix_time <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + europe + e_migdppcln*year_factor*europe,select_vars=c('e_migdppcln','year_factor','europe'),
+                   num_iters=900,
+                   num_cores=4,dbcon=dbcon)  %>% mutate(model_type="GDP Interactive Time Effects")
+
+
+
 
 #Fuel income specification
 
 model_oilcase <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + e_Total_Fuel_Income_PC + country_name,select_vars=c('e_migdppcln','e_Total_Fuel_Income_PC','country_name'),
                           num_iters=900,
-                                      num_cores=1,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Case Effects")
+                                      num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Case Effects")
 
 
 model_oiltime <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + e_Total_Fuel_Income_PC + factor(year_factor),select_vars=c('e_migdppcln','e_Total_Fuel_Income_PC','year_factor'),
                           num_iters=900,
-                          num_cores=1,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Time Effects")
+                          num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Time Effects")
 model_oiltwoway <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + e_Total_Fuel_Income_PC + factor(year_factor) + country_name,
                             select_vars=c('e_migdppcln','e_Total_Fuel_Income_PC','year_factor','country_name'),
                             num_iters=900,
-                            num_cores=1,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Two-way Effects")
+                            num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Two-way Effects")
 
 combined_all <- bind_rows(model_oilcase,model_oiltime,model_oiltwoway,model1,model2,model3,model4,model5)
 saveRDS(combined_all,file = 'data/all_models.rds')
@@ -132,8 +149,7 @@ country_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Eff
   filter(!grepl(':',betas)) %>% mutate(coef_type="country_fx") %>% separate(betas,c('beta_type','country'),sep=12) %>% 
   filter(country!='Palestine_West_Bank')
   
-combined_fx <- left_join(int_effects,country_effects,by='country') 
-    %>% 
+combined_fx <- left_join(int_effects,country_effects,by='country') %>% 
 ggplot(aes(x=coef,y=reorder(country,coef))) + geom_point() + 
  my_theme +   theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank(),axis.text.y=element_blank()) +
   geom_text(aes(label=country),hjust='outward',vjust='inward',check_overlap=TRUE) + ylab('') + xlab('Log GDP Effect on Democracy') +
