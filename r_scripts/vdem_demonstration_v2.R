@@ -66,15 +66,15 @@ model5 <- run_vdem(varnames=varnames,
 # One-way case FE that varies between time periods (test of Boix 2011)
 
 boix_country <- run_vdem(varnames=varnames,
-                         full_formula=v2x_polyarchy ~ e_migdppcln + country_name + time_period + e_migdppcln*country_name*time_period,select_vars=c('e_migdppcln','country_name','time_period'),
-                   num_iters=900,
-                   num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP Interactive Case Effects")
+                         full_formula=v2x_polyarchy ~ e_migdppcln + country_name + time_period + e_migdppcln*country_name*time_period,select_vars=c('e_migdppcln','country_name'),
+                   num_iters=900,country_interaction=TRUE,
+                   num_cores=1,dbcon=dbcon) %>% mutate(model_type="Boix Test Countries")
 
 # One-way time FE that varies between continents (test of Boix 2011)
 
-boix_time <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + europe + e_migdppcln*year_factor*europe,select_vars=c('e_migdppcln','year_factor','europe'),
-                   num_iters=900,
-                   num_cores=4,dbcon=dbcon)  %>% mutate(model_type="GDP Interactive Time Effects")
+boix_time <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + europe + e_migdppcln*year_factor*europe,select_vars=c('e_migdppcln','year_factor','e_regionpol'),
+                   num_iters=900,time_interaction=TRUE,
+                   num_cores=1,dbcon=dbcon)  %>% mutate(model_type="Boix Test Years")
 
 
 
@@ -94,7 +94,8 @@ model_oiltwoway <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_mig
                             num_iters=900,
                             num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Two-way Effects")
 
-combined_all <- bind_rows(model_oilcase,model_oiltime,model_oiltwoway,model1,model2,model3,model4,model5)
+combined_all <- bind_rows(model_oilcase,model_oiltime,model_oiltwoway,model1,model2,model3,model4,model5,
+                          boix_time,boix_country)
 saveRDS(combined_all,file = 'data/all_models.rds')
 
 # Order factors, and output in a coefficient table format
@@ -161,6 +162,41 @@ countries <- select(model4,matches(":year"))
 int_matrix <- tbl_df(lapply(countries,function(x) x + model4[['e_migdppcln']]))
 results <- data_frame(Coef=sapply(int_matrix,mean), SD = sapply(int_matrix,sd))
 results$variables <- str_extract(colnames(countries),'[0-9]+')
+results$variables_labels <- as.character(results$variables[rep(x = c(TRUE,NA,NA,NA,NA),times=nrow(results)/5)])
+results$variables_labels[nrow(results)] <- results$variables[nrow(results)]
+results$variables_labels <- ifelse(is.na(results$variables_labels),"",results$variables_labels)
+results <- mutate(results,upper=Coef + 1.96*SD,lower=Coef - 1.96*SD)
+
+ggplot(results,aes(y=Coef,x=variables)) + geom_point()  + 
+  geom_errorbar(aes(ymin=lower,ymax=upper)) + my_theme + ylab("Log GDP Effect on Democracy") + xlab("") + 
+  scale_x_discrete(labels=results$variables_labels) + theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank()) +
+  geom_hline(aes(yintercept=mean(Coef)),linetype=2)
+
+ggsave('betweenbetween.png',width=10,height=6,units='in')
+
+# Calculate interaction effects and plot for Boix tests
+#Drop West Bank because effect is very imprecise
+
+int_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Effects',grepl('country',betas)) %>% 
+  filter(grepl(':',betas)) %>% mutate(coef_type="interaction") %>% separate(betas,c('beta_type','country'),sep=24) %>% 
+  filter(country!='Palestine_West_Bank')
+
+country_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Effects',grepl('country',betas)) %>% 
+  filter(!grepl(':',betas)) %>% mutate(coef_type="country_fx") %>% separate(betas,c('beta_type','country'),sep=12) %>% 
+  filter(country!='Palestine_West_Bank')
+
+combined_fx <- left_join(int_effects,country_effects,by='country') %>% 
+  ggplot(aes(x=coef,y=reorder(country,coef))) + geom_point() + 
+  my_theme +   theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank(),axis.text.y=element_blank()) +
+  geom_text(aes(label=country),hjust='outward',vjust='inward',check_overlap=TRUE) + ylab('') + xlab('Log GDP Effect on Democracy') +
+  geom_errorbarh(aes(xmin=lower,xmax=upper),alpha=0.5)  + geom_vline(aes(xintercept=mean(coef)),linetype=2)
+ggsave('withinbetween.png',width=10,height=6,units='in')
+
+estimates <- filter(boix_time,grepl("e_migdppcln:europe:year_factor",betas))
+
+treat_matrix <- tbl_df(lapply(estimates,function(x) x + model4[['e_migdppcln']]))
+results <- data_frame(Coef=sapply(int_matrix,mean), SD = sapply(int_matrix,sd))
+results$variables <- str_extract(colnames(years),'[0-9]+')
 results$variables_labels <- as.character(results$variables[rep(x = c(TRUE,NA,NA,NA,NA),times=nrow(results)/5)])
 results$variables_labels[nrow(results)] <- results$variables[nrow(results)]
 results$variables_labels <- ifelse(is.na(results$variables_labels),"",results$variables_labels)
