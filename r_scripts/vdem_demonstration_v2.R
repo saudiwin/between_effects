@@ -14,7 +14,7 @@ require(parallel)
 source('r_scripts/Ggplot2_theme.R')
 
 
-dbcon <- "data/vdem_data.sqlite"
+dbcon <- "vdem_data.sqlite"
 varnames <- paste0('V',2:900)
 
 # Load posterior estimates of the V-DEM indices
@@ -117,9 +117,9 @@ out_data$years <- out_data$years + ylab("Observations") +my_theme  +
   theme(axis.ticks.x=element_blank(),axis.text.x=element_blank()) +
   stat_count(geom="text",aes(y=..count..,label=year_factor),vjust=-0.5,hjust='inward',check_overlap=TRUE)
 out_data$countries
-ggsave('charts/countries_balance.png',width=10,height=6,units='in')
+ggsave('countries_balance.png',width=10,height=6,units='in')
 out_data$years
-ggsave('charts/years_balance.png',width=10,height=6,units='in')
+ggsave('years_balance.png',width=10,height=6,units='in')
 
 # Calculate interaction effects and plot
 #Drop West Bank because effect is very imprecise
@@ -132,13 +132,12 @@ country_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Eff
   filter(!grepl(':',betas)) %>% mutate(coef_type="country_fx") %>% separate(betas,c('beta_type','country'),sep=12) %>% 
   filter(country!='Palestine_West_Bank')
   
-combined_fx <- left_join(int_effects,country_effects,by='country') 
-    %>% 
+combined_fx <- left_join(int_effects,country_effects,by='country') %>% 
 ggplot(aes(x=coef,y=reorder(country,coef))) + geom_point() + 
  my_theme +   theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank(),axis.text.y=element_blank()) +
   geom_text(aes(label=country),hjust='outward',vjust='inward',check_overlap=TRUE) + ylab('') + xlab('Log GDP Effect on Democracy') +
   geom_errorbarh(aes(xmin=lower,xmax=upper),alpha=0.5)  + geom_vline(aes(xintercept=mean(coef)),linetype=2)
-ggsave('../charts/withinbetween.png',width=10,height=6,units='in')
+ggsave('withinbetween.png',width=10,height=6,units='in')
 
 model4 <- readRDS("../data/model4_results.rds") %>% t %>% as.data.frame %>% tbl_df
 countries <- select(model4,matches(":year"))
@@ -155,4 +154,4 @@ ggplot(results,aes(y=Coef,x=variables)) + geom_point()  +
   scale_x_discrete(labels=results$variables_labels) + theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank()) +
   geom_hline(aes(yintercept=mean(Coef)),linetype=2)
 
-ggsave('../charts/betweenbetween.png',width=10,height=6,units='in')
+ggsave('betweenbetween.png',width=10,height=6,units='in')

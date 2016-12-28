@@ -117,22 +117,11 @@ m_replace <- length(unique(fiveyear$country))
 m_diff <- length(unique(fiveyear$country))
 
 for(i in 1:length(unique(fiveyear$country))) {
-  replacement1 <- runif(1:(nrow(fiveyear)-600),-0.02,-.01)
-  replacement2 <- runif((nrow(fiveyear)-599):nrow(fiveyear),.0001,.0002)
-  #replacement <- c(replacement1,replacement2)
-  replacement <- rnorm(nrow(oneyear),0,.1)
-  # data3 <- ungroup(fiveyear) %>% mutate(fhpolrigaug2 = ifelse(fhpolrigaug==1 & country %in% c('Canada','United States','United Kingdom','Australia'),replacement,fhpolrigaug)) %>%
-  #   group_by(country) %>% mutate(l1_fhpolrigaug2=lag(fhpolrigaug2,order_by=year))
-  #  data3$permute_rows <- sample.int(nrow(fiveyear))
-  # data3 <- arrange(data3,permute_rows) 
   data3 <- ungroup(fiveyear) %>% filter(country != over_countries[i])
   tw_coef[i] <- coef(lm(data=data3,formula=fhpolrigaug~ l1_fhpolrigaug + l1_lrgdpch+ factor(year) + factor(country)))['l1_lrgdpch']
   f1_coef[i] <- coef(lm(data=data3,formula=fhpolrigaug~ l1_fhpolrigaug + l1_lrgdpch + factor(year)))['l1_lrgdpch']
   c1_coef[i] <- coef(lm(data=data3,formula=fhpolrigaug~ l1_fhpolrigaug + l1_lrgdpch + factor(country)))['l1_lrgdpch']
   p_coef[i] <- coef(lm(data=data3,formula=fhpolrigaug~ l1_fhpolrigaug + l1_lrgdpch ))['l1_lrgdpch']
-  m_replace[i] <- mean(ifelse(data3$fhpolrigaug==1,replacement,data3$fhpolrigaug),na.rm=TRUE)
-  out_diff <- data3 %>% group_by(country) %>% summarize(mean_countries=mean(fhpolrigaug))
-  m_diff[i] <- (out_diff$mean_countries[1] - out_diff$mean_countries[2])^2
 }
 
 
@@ -159,14 +148,7 @@ out_p <- grid.arrange(p1,p2,p3,p4)
 ggsave(plot=out_p,filename='ar_outliers.png',width=5.5,units='in')
 
 
-# Iterate over A&R
-over_countries <- unique(fiveyear$country)
-tw_coef <- 1:length(unique(fiveyear$country))
-f1_coef <- 1:length(unique(fiveyear$country))
-c1_coef <- 1:length(unique(fiveyear$country))
-p_coef <- 1:length(unique(fiveyear$country))
-m_replace <- length(unique(fiveyear$country))
-m_diff <- length(unique(fiveyear$country))
+
 
 # Iterate over H&M
 over_countries <- unique(hm$hmccode)
@@ -174,14 +156,11 @@ tw_coef <- 1:length(unique(hm$hmccode))
 f1_coef <- 1:length(unique(hm$hmccode))
 c1_coef <- 1:length(unique(hm$hmccode))
 p_coef <- 1:length(unique(hm$hmccode))
-m_replace <- length(unique(hm$hmccode))
-m_diff <- length(unique(hm$hmccode))
 
-for(i in 1:1000) {
+
+for(i in 1:length(over_countries)) {
   data3 <- hm
-  replacement <- rnorm(nrow(data3),0,.2)
-  this_sample <- sample(unique(hm$hmccode),30)
-  data3 <- ungroup(data3) %>% filter(hmccode %in% this_sample)
+  data3 <- ungroup(data3) %>% filter(hmccode!=over_countries[i])
   tw_coef[i] <- coef(lm(data=data3,formula=D_pol_int~L_pol_int + L_oilcap_int + D_oilcap_int + L_loggdpcap_int + L_civilwar_int +
                           L_regdiffuse + L_worlddiffuse + D_loggdpcap_int + D_regdiffuse + D_worlddiffuse + factor(year) + factor(hmccode)))['L_oilcap_int']
   f1_coef[i] <-  coef(lm(data=data3,formula=D_pol_int~L_pol_int + L_oilcap_int + D_oilcap_int + L_loggdpcap_int + L_civilwar_int +
@@ -214,7 +193,4 @@ p4 <- data_frame(countries=unique(hm$hmccode),time=p_coef) %>% ggplot(aes(y=p_co
 out_p <- grid.arrange(p1,p2,p3,p4)
 ggsave(plot=out_p,filename='hm_outliers.png',width=8.5,units='in')
 
-hm$year <- factor(hm$year)
-out_model <- lm(data=hm,formula=D_pol_int~L_pol_int + L_oilcap_int + D_oilcap_int + L_loggdpcap_int + L_civilwar_int +
-             L_regdiffuse + L_worlddiffuse + D_loggdpcap_int + D_regdiffuse + D_worlddiffuse + year + factor(hmccode))
-hm_cv <- cv.glm(hm,out_model)
+
