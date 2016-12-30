@@ -14,7 +14,7 @@ require(parallel)
 source('r_scripts/Ggplot2_theme.R')
 
 
-dbcon <- "vdem_data.sqlite"
+dbcon <- "data/vdem_data.sqlite"
 varnames <- paste0('V',2:900)
 
 # Load posterior estimates of the V-DEM indices
@@ -66,15 +66,17 @@ model5 <- run_vdem(varnames=varnames,
 # One-way case FE that varies between time periods (test of Boix 2011)
 
 boix_country <- run_vdem(varnames=varnames,
-                         full_formula=v2x_polyarchy ~ e_migdppcln + country_name + time_period + e_migdppcln*country_name*time_period,select_vars=c('e_migdppcln','country_name'),
+                         full_formula=v2x_polyarchy ~ e_migdppcln*country_name*factor(time_period),select_vars=c('e_migdppcln','country_name'),
                    num_iters=900,country_interaction=TRUE,
-                   num_cores=1,dbcon=dbcon) %>% mutate(model_type="Boix Test Countries")
+                   num_cores=4,dbcon=dbcon) 
+#%>% mutate(model_type="Boix Test Countries")
 
 # One-way time FE that varies between continents (test of Boix 2011)
 
 boix_time <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + europe + e_migdppcln*year_factor*europe,select_vars=c('e_migdppcln','year_factor','e_regionpol'),
                    num_iters=900,time_interaction=TRUE,
-                   num_cores=1,dbcon=dbcon)  %>% mutate(model_type="Boix Test Years")
+                   num_cores=4,dbcon=dbcon)  
+#%>% mutate(model_type="Boix Test Years")
 
 
 
@@ -177,34 +179,65 @@ ggsave('betweenbetween.png',width=10,height=6,units='in')
 # Calculate interaction effects and plot for Boix tests
 #Drop West Bank because effect is very imprecise
 
-int_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Effects',grepl('country',betas)) %>% 
-  filter(grepl(':',betas)) %>% mutate(coef_type="interaction") %>% separate(betas,c('beta_type','country'),sep=24) %>% 
-  filter(country!='Palestine_West_Bank')
+boix_country_data <- boix_country$results_full
 
-country_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Effects',grepl('country',betas)) %>% 
-  filter(!grepl(':',betas)) %>% mutate(coef_type="country_fx") %>% separate(betas,c('beta_type','country'),sep=12) %>% 
-  filter(country!='Palestine_West_Bank')
+year_ints_bipolar <- boix_country_data$e_migdppcln 
+year_ints_unipolar <- boix_country_data$e_migdppcln + boix_country_data$`e_migdppcln:factor(time_period)1`
+year_ints_neutral <- boix_country_data$e_migdppcln + boix_country_data$`e_migdppcln:factor(time_period)0`
 
-combined_fx <- left_join(int_effects,country_effects,by='country') %>% 
-  ggplot(aes(x=coef,y=reorder(country,coef))) + geom_point() + 
+country_ints_bipolar <- boix_country_data[grepl('e_migdppcln:country_name[A-Za-z]+(?!.*time_period)',names(boix_country_data),perl=TRUE)]
+country_ints_unipolar <- boix_country_data[grepl('e_migdppcln:country_name.+:factor\\(time_period\\)1',names(boix_country_data),perl=TRUE)]
+country_ints_neutral <- boix_country_data[grepl('e_migdppcln:country_name.+:factor\\(time_period\\)0',names(boix_country_data),perl=TRUE)]
+
+# Need to remove countries that dropped out of the triple interaction
+all_countries <- str_extract(names(country_ints_bipolar),':[ _-a-zA-z]+')
+all_countries <- gsub(pattern = ':|country_name','',x = all_countries)
+neut_countries <- str_extract(names(country_ints_neutral),':[ _-a-zA-z]+')
+neut_countries <- gsub(pattern = ':|country_name','',x = neut_countries)
+keep_countries_neutral <- which(all_countries %in% neut_countries)
+unipolar_countries <- str_extract(names(country_ints_unipolar),':[ _-a-zA-z]+')
+unipolar_countries <- gsub(pattern = ':|country_name','',x = unipolar_countries)
+keep_countries_unipolar <- which(all_countries %in% unipolar_countries)
+
+bipolar_effect <- (year_ints_bipolar + as.matrix(country_ints_bipolar)) %>% as_data_frame %>% mutate(Period='Polarized') %>% 
+  gather(parameters,estimates,-Period) %>% mutate(parameters=gsub(x=str_extract(parameters,':[ _-a-zA-z]+'),pattern=':|country_name',replacement='')) %>% 
+  group_by(parameters,Period) %>% summarize(mean_est=mean(estimates),up_bd=quantile(estimates,.95),lw_bd=quantile(estimates,.05))
+unipolar_effect <- (year_ints_unipolar + as.matrix(country_ints_unipolar) + as.matrix(country_ints_bipolar)[,keep_countries_unipolar]) %>% as_data_frame %>% mutate(Period='Pro-Democracy') %>% 
+  gather(parameters,estimates,-Period) %>% mutate(parameters=gsub(x=str_extract(parameters,':[ _-a-zA-z]+:'),pattern=':|country_name',replacement='')) %>% 
+  group_by(parameters,Period) %>% summarize(mean_est=mean(estimates),up_bd=quantile(estimates,.95),lw_bd=quantile(estimates,.05))
+neutral_effect <- (year_ints_neutral + as.matrix(country_ints_neutral) + as.matrix(country_ints_bipolar)[,keep_countries_neutral]) %>% as_data_frame %>% mutate(Period='Neutral') %>% 
+  gather(parameters,estimates,-Period) %>% mutate(parameters=gsub(x=str_extract(parameters,':[ _-a-zA-z]+'),pattern=':|country_name',replacement='')) %>% 
+  group_by(parameters,Period) %>% summarize(mean_est=mean(estimates),up_bd=quantile(estimates,.95),lw_bd=quantile(estimates,.05))
+combined_int <- bind_rows(bipolar_effect,unipolar_effect,neutral_effect) %>% 
+  ungroup %>% arrange(Period,mean_est) %>% mutate(order=row_number())
+
+combined_int %>% filter(parameters!="Palestine_West_Bank") %>% ggplot(aes(x=mean_est,y=order,colour=Period)) + geom_point(size=0.5) + facet_wrap(~Period,ncol=1,nrow=3,scales = 'free_y',strip.position = 'left') +
+  geom_errorbarh(aes(xmin=lw_bd,xmax=up_bd),alpha=0.5) + geom_vline(aes(xintercept=mean(mean_est)),linetype=2) +
   my_theme +   theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank(),axis.text.y=element_blank()) +
-  geom_text(aes(label=country),hjust='outward',vjust='inward',check_overlap=TRUE) + ylab('') + xlab('Log GDP Effect on Democracy') +
-  geom_errorbarh(aes(xmin=lower,xmax=upper),alpha=0.5)  + geom_vline(aes(xintercept=mean(coef)),linetype=2)
-ggsave('withinbetween.png',width=10,height=6,units='in')
+  ylab('') + xlab('') +geom_text(aes(label=parameters),hjust='outward',vjust='inward',check_overlap=TRUE,colour='black',nudge_x = .02) +
+  guides(colour='none')
 
-estimates <- filter(boix_time,grepl("e_migdppcln:europe:year_factor",betas))
+ggsave('charts/boixcountry.png',width=10,height=6,units='in')
 
-treat_matrix <- tbl_df(lapply(estimates,function(x) x + model4[['e_migdppcln']]))
-results <- data_frame(Coef=sapply(int_matrix,mean), SD = sapply(int_matrix,sd))
-results$variables <- str_extract(colnames(years),'[0-9]+')
-results$variables_labels <- as.character(results$variables[rep(x = c(TRUE,NA,NA,NA,NA),times=nrow(results)/5)])
-results$variables_labels[nrow(results)] <- results$variables[nrow(results)]
-results$variables_labels <- ifelse(is.na(results$variables_labels),"",results$variables_labels)
-results <- mutate(results,upper=Coef + 1.96*SD,lower=Coef - 1.96*SD)
+boix_time_data <- boix_time$results_full
+year_ints_europe <- boix_time_data[grepl('e_migdppcln:europe:year_factor',names(boix_time_data))]
+year_ints_noneurope <- boix_time_data[grepl('e_migdppcln:year_factor',names(boix_time_data))]
+intercepts_europe <- boix_time_data$e_migdppcln + boix_time_data$`e_migdppcln:europe`
+intercepts_noneurope <- boix_time_data$e_migdppcln
+combined_europe <- (intercepts_europe + as.matrix(year_ints_europe) + as.matrix(year_ints_noneurope)) %>% as_data_frame %>% mutate(Origin='European') %>% 
+  gather(parameters,estimates,-Origin) %>% mutate(parameters=as.character(str_extract(parameters,'[0-9]+'))) %>% 
+  group_by(parameters,Origin) %>% summarize(mean_est=mean(estimates),up_bd=quantile(estimates,.95),lw_bd=quantile(estimates,.05))
+combined_noneurope <- (intercepts_noneurope + as.matrix(year_ints_noneurope)) %>% as_data_frame %>% mutate(Origin='Non-European') %>% 
+  gather(parameters,estimates,-Origin) %>% mutate(parameters=as.character(str_extract(parameters,'[0-9]+'))) %>% 
+  group_by(parameters,Origin) %>% summarize(mean_est=mean(estimates),up_bd=quantile(estimates,.95),lw_bd=quantile(estimates,.05))
+combined_int <- bind_rows(combined_europe,combined_noneurope)
+combined_int$param_labels <- as.character(combined_int$parameters[rep(x = c(TRUE,NA,NA,NA,NA),times=nrow(combined_int)/5)])
+combined_int$param_labels <- ifelse(is.na(combined_int$param_labels),"",combined_int$param_labels)
 
-ggplot(results,aes(y=Coef,x=variables)) + geom_point()  + 
-  geom_errorbar(aes(ymin=lower,ymax=upper)) + my_theme + ylab("Log GDP Effect on Democracy") + xlab("") + 
-  scale_x_discrete(labels=results$variables_labels) + theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank()) +
-  geom_hline(aes(yintercept=mean(Coef)),linetype=2)
+ggplot(combined_int,aes(y=mean_est,x=as.numeric(parameters),fill=Origin)) + geom_line()  + 
+  geom_ribbon(aes(ymin=lw_bd,ymax=up_bd),alpha=0.5) + my_theme + ylab("Log GDP Effect on Democracy") + xlab("") + 
+  scale_x_continuous(breaks=floor(seq(1901,2010,length.out=10))) + theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank()) +
+  geom_hline(aes(yintercept=mean(mean_est)),linetype=2) + geom_vline(xintercept=1989,linetype=3) +
+  annotate('text',x=1995,y=0.8,label='1989')
 
-ggsave('betweenbetween.png',width=10,height=6,units='in')
+ggsave('charts/boixtime_europe.png',width=10,height=6,units='in')

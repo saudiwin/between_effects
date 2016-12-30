@@ -25,13 +25,17 @@ fiveyear <- fiveyear %>% group_by(country) %>% mutate(l1_fhpolrigaug=lag(fhpolri
                                                       l1_lrgdpch=lag(lrgdpch,order_by=year))
 fiveyear <- left_join(fiveyear,fivey_cbalance) %>% left_join(fivey_tbalance,by='year') %>% ungroup %>% 
   select(matches('fhpol|lrgd'),country,year,panel_balance,time_balance) %>% filter(complete.cases(.))
-  
+
+#Check for countries with no change in DV
+
+acemoglu_sds <- fiveyear %>% group_by(country) %>% summarize(sd_country=sd(fhpolrigaug))
 
 
-hm <- read_dta("C:/Users/bobku/Documents/R projects/between_effects/hm.dta")
+hm <- read_dta("hm.dta")
 hm <- select(hm,D_pol_int,L_pol_int,L_oilcap_int,D_oilcap_int,L_loggdpcap_int,L_civilwar_int,L_regdiffuse,L_worlddiffuse,
-             D_loggdpcap_int,D_regdiffuse,D_worlddiffuse,year,hmccode) %>% filter(complete.cases(.)) %>% 
+             D_loggdpcap_int,D_regdiffuse,D_worlddiffuse,year,hmccode,cnamehabmen) %>% filter(complete.cases(.)) %>% 
   mutate(year=factor(year),hmccode=factor(hmccode))
+hm_sds <- hm %>% group_by(cnamehabmen) %>% summarize(sd_country=sd(D_pol_int))
 summary(lm(data=hm,formula=D_pol_int~L_pol_int + L_oilcap_int + D_oilcap_int + L_loggdpcap_int + L_civilwar_int +
              L_regdiffuse + L_worlddiffuse + D_loggdpcap_int + D_regdiffuse + D_worlddiffuse + factor(year) + factor(hmccode)))
 
