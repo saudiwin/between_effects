@@ -25,21 +25,22 @@ varnames <- paste0('V',2:900)
 
 model1 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + country_name,select_vars=c('e_migdppcln','country_name'),
                    num_iters=900,
-                   num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP Case Effects")
+                   num_cores=4,dbcon=dbcon) 
+model1 <- model1$results_condense %>% mutate(model_type="GDP Case Effects")
 
 # One-way time effect
 
 model2 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor),select_vars=c('e_migdppcln','year_factor'),
          num_iters=900,
-         num_cores=4,dbcon=dbcon)  %>% mutate(model_type="GDP Time Effects")
-
+         num_cores=4,dbcon=dbcon)  
+model2 <- model2$results_condense %>% mutate(model_type="GDP Time Effects")
 # 2-way FEs
   
 model3 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + country_name,
                    select_vars=c('e_migdppcln','year_factor','country_name'),
                   num_iters=900,
-                  num_cores=4,dbcon=dbcon)  %>% mutate(model_type="GDP Two-way Effects")
-
+                  num_cores=4,dbcon=dbcon)  
+model3 <- model3$results_condense %>% mutate(model_type="GDP Two-way Effects")
 
 # All three are statistically significant, the within effect is the largest
 
@@ -53,30 +54,30 @@ model3 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + 
 
 model4 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + e_migdppcln*year_factor,select_vars=c('e_migdppcln','year_factor'),
                    num_iters=900,
-                   num_cores=4,dbcon=dbcon)  %>% mutate(model_type="GDP Interactive Time Effects")
-
+                   num_cores=4,dbcon=dbcon)  
+model4 <- model4$results_condense %>% mutate(model_type="GDP Interactive Time Effects")
 
 # One-way case FE that varies between countries
 
 model5 <- run_vdem(varnames=varnames,
                    full_formula=v2x_polyarchy ~ e_migdppcln + country_name + e_migdppcln*country_name,select_vars=c('e_migdppcln','country_name'),
                    num_iters=900,
-                   num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP Interactive Case Effects")
-
+                   num_cores=4,dbcon=dbcon) 
+model5 <- model5$results_condense %>% mutate(model_type="GDP Interactive Case Effects")
 # One-way case FE that varies between time periods (test of Boix 2011)
 
 boix_country <- run_vdem(varnames=varnames,
                          full_formula=v2x_polyarchy ~ e_migdppcln*country_name*factor(time_period),select_vars=c('e_migdppcln','country_name'),
                    num_iters=900,country_interaction=TRUE,
                    num_cores=4,dbcon=dbcon) 
-#%>% mutate(model_type="Boix Test Countries")
+boix_country_condensed <- boix_country$results_condense %>% mutate(model_type="Boix Test Countries")
 
 # One-way time FE that varies between continents (test of Boix 2011)
 
 boix_time <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + europe + e_migdppcln*year_factor*europe,select_vars=c('e_migdppcln','year_factor','e_regionpol'),
                    num_iters=900,time_interaction=TRUE,
                    num_cores=4,dbcon=dbcon)  
-#%>% mutate(model_type="Boix Test Years")
+boix_time_condensed <- boix_time$results_condense %>% mutate(model_type="Boix Test Years")
 
 
 
@@ -85,19 +86,21 @@ boix_time <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln
 
 model_oilcase <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + e_Total_Fuel_Income_PC + country_name,select_vars=c('e_migdppcln','e_Total_Fuel_Income_PC','country_name'),
                           num_iters=900,
-                                      num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Case Effects")
-
+                                      num_cores=4,dbcon=dbcon) 
+model_oilcase <- model_oilcase$results_condense %>% mutate(model_type="GDP-Oil Case Effects")
 
 model_oiltime <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + e_Total_Fuel_Income_PC + factor(year_factor),select_vars=c('e_migdppcln','e_Total_Fuel_Income_PC','year_factor'),
                           num_iters=900,
-                          num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Time Effects")
+                          num_cores=4,dbcon=dbcon) 
+model_oiltime <- model_oiltime$results_condense %>% mutate(model_type="GDP-Oil Time Effects")
+
 model_oiltwoway <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + e_Total_Fuel_Income_PC + factor(year_factor) + country_name,
                             select_vars=c('e_migdppcln','e_Total_Fuel_Income_PC','year_factor','country_name'),
                             num_iters=900,
-                            num_cores=4,dbcon=dbcon) %>% mutate(model_type="GDP-Oil Two-way Effects")
-
+                            num_cores=4,dbcon=dbcon) 
+model_oiltwoway <- model_oiltwoway$results_condense %>% mutate(model_type="GDP-Oil Two-way Effects")
 combined_all <- bind_rows(model_oilcase,model_oiltime,model_oiltwoway,model1,model2,model3,model4,model5,
-                          boix_time,boix_country)
+                          boix_time_condensed,boix_country_condensed)
 saveRDS(combined_all,file = 'data/all_models.rds')
 
 # Order factors, and output in a coefficient table format
