@@ -100,14 +100,22 @@ model_oiltwoway <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_mig
                             num_iters=900,
                             num_cores=4,dbcon=dbcon) 
 model_oiltwoway <- model_oiltwoway$results_condense %>% mutate(model_type="GDP-Oil Two-way Effects")
-combined_all <- bind_rows(model_oilcase,model_oiltime,model_oiltwoway,model1,model2,model3,model4_condensed,model5_condensed,
+combined_all <- bind_rows(model_oilcase,model_oiltime,model_oiltwoway,model1,model2,model3,model4_condense,model5_condense,
                           boix_time_condensed,boix_country_condensed)
 saveRDS(combined_all,file = 'data/all_models.rds')
 
 # Order factors, and output in a coefficient table format
 # Rescale coefficients for oil to be on $1,000 of per capita income
 
-just_ivs <- combined_all %>% filter(betas %in% c('e_migdppcln','e_Total_Fuel_Income_PC'))  %>% 
+just_ivs <- combined_all %>% filter(betas %in% c('e_migdppcln','e_Total_Fuel_Income_PC'),
+                                    model_type %in% c('GDP Case Effects',
+                                                      'GDP Time Effects',
+                                                      'GDP Two-Way Effects',
+                                                      'GDP Interactive Time Effects',
+                                                      'GDP Interactive Case Effects',
+                                                      'GDP-Oil Case Effects',
+                                                      'GDP-Oil Time Effects',
+                                                      'GDP-Oil Two-way Effects'))  %>% 
   gather(estimates,estimate_type,-betas,-model_type)  %>% mutate(model_type=factor(model_type,
                                                                                    levels=c('GDP Case Effects',
                                                                                             'GDP Time Effects',
@@ -141,9 +149,9 @@ out_data$years <- out_data$years + ylab("Observations") +my_theme  +
   theme(axis.ticks.x=element_blank(),axis.text.x=element_blank()) +
   stat_count(geom="text",aes(y=..count..,label=year_factor),vjust=-0.5,hjust='inward',check_overlap=TRUE)
 out_data$countries
-ggsave('countries_balance.png',width=10,height=6,units='in')
+ggsave('charts/countries_balance.png',width=10,height=6,units='in')
 out_data$years
-ggsave('years_balance.png',width=10,height=6,units='in')
+ggsave('charts/years_balance.png',width=10,height=6,units='in')
 
 # Calculate interaction effects and plot
 #Drop West Bank because effect is very imprecise
@@ -163,11 +171,11 @@ country_effect <- (model5$e_migdppcln + as.matrix(select(model5,matches('e_migdp
   
 # combined_fx <- left_join(int_effects,country_effects,by='country') %>% 
 country_effect %>% filter(parameters!='Palestine_West_Bank') %>% 
-ggplot(aes(x=mean_est,y=reorder(parameters,mean_est))) + geom_point() + 
+ggplot(aes(x=mean_est,y=reorder(parameters,mean_est))) + geom_point(alpha=0.5) + 
  my_theme +   theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank(),axis.text.y=element_blank()) +
   geom_text(aes(label=parameters),hjust='outward',vjust='inward',check_overlap=TRUE) + ylab('') + xlab('Log GDP Effect on Democracy') +
-  geom_errorbarh(aes(xmin=lw_bd,xmax=up_bd),alpha=0.5)  + geom_vline(aes(xintercept=mean(mean_est)),linetype=2)
-ggsave('withinbetween.png',width=10,height=6,units='in')
+  geom_errorbarh(aes(xmin=lw_bd,xmax=up_bd),alpha=0.4)  + geom_vline(aes(xintercept=mean(mean_est)),linetype=2)
+ggsave('charts/withinbetween.png',width=10,height=6,units='in')
 
 #model4 <- readRDS("../data/model4_results.rds") %>% t %>% as.data.frame %>% tbl_df
 countries <- select(model4,matches(":year"))
@@ -184,7 +192,7 @@ ggplot(results,aes(y=Coef,x=variables)) + geom_point()  +
   scale_x_discrete(labels=results$variables_labels) + theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank()) +
   geom_hline(aes(yintercept=mean(Coef)),linetype=2)
 
-ggsave('betweenbetween.png',width=10,height=6,units='in')
+ggsave('charts/betweenbetween.png',width=10,height=6,units='in')
 
 # Calculate interaction effects and plot for Boix tests
 #Drop West Bank because effect is very imprecise
