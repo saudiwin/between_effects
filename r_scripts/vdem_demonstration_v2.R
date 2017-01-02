@@ -55,15 +55,16 @@ model3 <- model3$results_condense %>% mutate(model_type="GDP Two-way Effects")
 model4 <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_migdppcln + factor(year_factor) + e_migdppcln*year_factor,select_vars=c('e_migdppcln','year_factor'),
                    num_iters=900,
                    num_cores=4,dbcon=dbcon)  
-model4 <- model4$results_condense %>% mutate(model_type="GDP Interactive Time Effects")
-
+model4_condense <- model4$results_condense %>% mutate(model_type="GDP Interactive Time Effects")
+model4 <- model4$results_full
 # One-way case FE that varies between countries
 
 model5 <- run_vdem(varnames=varnames,
                    full_formula=v2x_polyarchy ~ e_migdppcln + country_name + e_migdppcln*country_name,select_vars=c('e_migdppcln','country_name'),
                    num_iters=900,
                    num_cores=4,dbcon=dbcon) 
-model5 <- model5$results_condense %>% mutate(model_type="GDP Interactive Case Effects")
+model5_condense <- model5$results_condense %>% mutate(model_type="GDP Interactive Case Effects")
+model5 <- model5$results_full
 # One-way case FE that varies between time periods (test of Boix 2011)
 
 boix_country <- run_vdem(varnames=varnames,
@@ -99,7 +100,7 @@ model_oiltwoway <- run_vdem(varnames=varnames,full_formula=v2x_polyarchy ~ e_mig
                             num_iters=900,
                             num_cores=4,dbcon=dbcon) 
 model_oiltwoway <- model_oiltwoway$results_condense %>% mutate(model_type="GDP-Oil Two-way Effects")
-combined_all <- bind_rows(model_oilcase,model_oiltime,model_oiltwoway,model1,model2,model3,model4,model5,
+combined_all <- bind_rows(model_oilcase,model_oiltime,model_oiltwoway,model1,model2,model3,model4_condensed,model5_condensed,
                           boix_time_condensed,boix_country_condensed)
 saveRDS(combined_all,file = 'data/all_models.rds')
 
@@ -147,22 +148,28 @@ ggsave('years_balance.png',width=10,height=6,units='in')
 # Calculate interaction effects and plot
 #Drop West Bank because effect is very imprecise
 
-int_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Effects',grepl('country',betas)) %>% 
-  filter(grepl(':',betas)) %>% mutate(coef_type="interaction") %>% separate(betas,c('beta_type','country'),sep=24) %>% 
-  filter(country!='Palestine_West_Bank')
+country_effect <- (model5$e_migdppcln + as.matrix(select(model5,matches('e_migdppcln:')))) %>% as_data_frame %>% 
+  gather(parameters,estimates) %>% mutate(parameters=gsub(x=str_extract(parameters,':[ _-a-zA-z]+'),pattern=':|country_name',replacement='')) %>% 
+  group_by(parameters) %>% summarize(mean_est=mean(estimates),up_bd=quantile(estimates,.95),lw_bd=quantile(estimates,.05))
 
-country_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Effects',grepl('country',betas)) %>% 
-  filter(!grepl(':',betas)) %>% mutate(coef_type="country_fx") %>% separate(betas,c('beta_type','country'),sep=12) %>% 
-  filter(country!='Palestine_West_Bank')
+
+# int_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Effects',grepl('country',betas)) %>% 
+#   filter(grepl(':',betas)) %>% mutate(coef_type="interaction") %>% separate(betas,c('beta_type','country'),sep=24) %>% 
+#   filter(country!='Palestine_West_Bank')
+# 
+# country_effects <- combined_all %>% filter(model_type=='GDP Interactive Case Effects',grepl('country',betas)) %>% 
+#   filter(!grepl(':',betas)) %>% mutate(coef_type="country_fx") %>% separate(betas,c('beta_type','country'),sep=12) %>% 
+#   filter(country!='Palestine_West_Bank')
   
-combined_fx <- left_join(int_effects,country_effects,by='country') %>% 
-ggplot(aes(x=coef,y=reorder(country,coef))) + geom_point() + 
+# combined_fx <- left_join(int_effects,country_effects,by='country') %>% 
+country_effect %>% filter(parameters!='Palestine_West_Bank') %>% 
+ggplot(aes(x=mean_est,y=reorder(parameters,mean_est))) + geom_point() + 
  my_theme +   theme(axis.ticks.x=element_blank(),axis.ticks.y=element_blank(),axis.text.y=element_blank()) +
-  geom_text(aes(label=country),hjust='outward',vjust='inward',check_overlap=TRUE) + ylab('') + xlab('Log GDP Effect on Democracy') +
-  geom_errorbarh(aes(xmin=lower,xmax=upper),alpha=0.5)  + geom_vline(aes(xintercept=mean(coef)),linetype=2)
+  geom_text(aes(label=parameters),hjust='outward',vjust='inward',check_overlap=TRUE) + ylab('') + xlab('Log GDP Effect on Democracy') +
+  geom_errorbarh(aes(xmin=lw_bd,xmax=up_bd),alpha=0.5)  + geom_vline(aes(xintercept=mean(mean_est)),linetype=2)
 ggsave('withinbetween.png',width=10,height=6,units='in')
 
-model4 <- readRDS("../data/model4_results.rds") %>% t %>% as.data.frame %>% tbl_df
+#model4 <- readRDS("../data/model4_results.rds") %>% t %>% as.data.frame %>% tbl_df
 countries <- select(model4,matches(":year"))
 int_matrix <- tbl_df(lapply(countries,function(x) x + model4[['e_migdppcln']]))
 results <- data_frame(Coef=sapply(int_matrix,mean), SD = sapply(int_matrix,sd))
